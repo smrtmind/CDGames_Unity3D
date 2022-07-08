@@ -636,7 +636,7 @@ MonoBehaviour:
   _boardPrefab: {fileID: 3700126089200192435, guid: 85198db1e0e96a2409535ea70a1c7a79, type: 3}
   _slider: {fileID: 4553509262037060377}
   _spawnDelay: 0.06
-  _rotateMultiplier: 35
+  _rotateMultiplier: 40
   _smoothPower: 50
   _session: {fileID: 0}
 --- !u!114 &4553509262037060383

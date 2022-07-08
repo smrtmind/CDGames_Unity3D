@@ -1,5 +1,4 @@
 using Scripts.Utils;
-using System.Collections;
 using UnityEngine;
 
 namespace Scripts.Player
@@ -7,45 +6,73 @@ namespace Scripts.Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private Rigidbody _body;
-        [SerializeField] private float _runSpeed = 5f;
-        [SerializeField] private float _movementSpeed = 5f;
         [SerializeField] private float _gravityMultiplier = 1f;
-        [SerializeField] private SpawnComponent _boardSpawner;
         [SerializeField] private Animator _animator;
 
         [Space]
         [SerializeField] private bool _isGrounded;
         [SerializeField] private float _groundBeemLength = 2f;
 
-        private static readonly int IsGrounded = Animator.StringToHash("is-grounded");
+        private static readonly int IsFallingKey = Animator.StringToHash("is-falling");
+        private static readonly int IsRunningKey = Animator.StringToHash("is-running");
+        private static readonly int IsDeadKey = Animator.StringToHash("is-dead");
+        private static readonly int IsWinKey = Animator.StringToHash("is-win");
+
+        private SliderComponent _boardSlider;
+        private bool _isRunning;
+        private bool _isDead;
+        private bool _isWin;
+
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set => _isRunning = value;
+        }
+
+        public bool IsDead
+        {
+            get => _isDead;
+            set => _isDead = value;
+        }
+
+        public bool IsWin
+        {
+            get => _isWin;
+            set => _isWin = value;
+        }
 
         public bool _slideUp { get; set; }
         public bool _slideDown { get; set; }
 
-        private bool _boardsIsUsing = false;
+        private void Awake()
+        {
+            _boardSlider = FindObjectOfType<SliderComponent>();
+        }
 
         private void Update()
         {
             _isGrounded = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), _groundBeemLength);
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * _groundBeemLength, Color.red);
 
-            _body.velocity = new Vector3(0f, 0f, _runSpeed);
-
-            if (_slideUp || _slideDown)
+            if (_isRunning)
             {
-                if (!_boardsIsUsing)
+                if (_boardSlider.SliderIsTouching)
                 {
-                    _boardsIsUsing = true;
-
-                    StartCoroutine(BuildFloor());
+                    _boardSlider.slider.interactable = true;
+                    _boardSlider.SpawnBoards = true;
                 }
+                else
+                {
+                    _boardSlider.slider.value = 0;
 
-                if (_slideUp)
-                    _body.AddForce(new Vector3(0f, _movementSpeed, 0f));
-                else if (_slideDown)
-                    _body.AddForce(new Vector3(0f, -_movementSpeed, 0f));
+                    _boardSlider.slider.interactable = false;
+                    _boardSlider.SpawnBoards = false;
+                }
             }
-            else
+
+            _boardSlider.slider.enabled = _isRunning ? true : false;
+
+            if (!_isGrounded)
                 _body.AddForce(new Vector3(0f, -_gravityMultiplier, 0f));
 
             UpdateAnimation();
@@ -53,16 +80,11 @@ namespace Scripts.Player
 
         private void UpdateAnimation()
         {
-            _animator.SetBool(IsGrounded, _isGrounded ? true : false);  
-        }
+            _animator.SetBool(IsRunningKey, _isRunning);
+            _animator.SetBool(IsDeadKey, _isDead);
+            _animator.SetBool(IsWinKey, _isWin);
 
-        private IEnumerator BuildFloor()
-        {
-            _boardSpawner.Spawn();
-
-            yield return new WaitForSeconds(0.05f);
-
-            _boardsIsUsing = false;
+            //_animator.SetBool(IsFallingKey, !_isGrounded);  
         }
     }
 }

@@ -14,20 +14,17 @@ namespace Scripts.Environment
         private float _zPosition;
         private bool _creatingSection = false;
 
-        private void Start()
-        {
-            //spawn first random section on start in the middle of the scene, to make every start of game unique
-            Instantiate(_sections[GetRandomIndex()], Vector3.zero, Quaternion.identity);
-        }
-
         private void Update()
         {
-            if (!_creatingSection)
+            if (!_player.IsDead)
             {
-                _creatingSection = true;
+                if (!_creatingSection)
+                {
+                    _creatingSection = true;
 
-                _zPosition += _sectionLong;
-                StartCoroutine(SpawnSection(_zPosition));
+                    _zPosition += _sectionLong;
+                    StartCoroutine(SpawnSection(_zPosition));
+                }
             }
         }
 

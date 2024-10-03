@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Scripts.UI
@@ -9,14 +8,23 @@ namespace Scripts.UI
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField, Min(0.1f)] private float _fadeDuration = 0.5f;
 
-        private void Show()
-        {
+        private Tween _fadeTween;
 
+        public void Show() => Fade(1f);
+
+        public void Hide() => Fade(0f);
+
+        private void Fade(float endValue)
+        {
+            _fadeTween?.Kill();
+            _fadeTween = _canvasGroup.DOFade(endValue, _fadeDuration)
+                .SetEase(Ease.Linear)
+                .SetLink(gameObject);
         }
 
-        private void Hide()
+        private void OnDisable()
         {
-
+            _fadeTween?.Kill();
         }
     }
 }

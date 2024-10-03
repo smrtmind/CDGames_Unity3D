@@ -22,7 +22,7 @@ namespace Scripts.Characters
         public void Die()
         {
             IsDead = true;
-            GameManager.OnMatchEnded?.Invoke();
+            MatchManager.OnMatchEnded?.Invoke();
         }
 
         //private bool _isGrounded;
@@ -50,14 +50,14 @@ namespace Scripts.Characters
 
         private void OnEnable()
         {
-            GameManager.OnMatchStarted += OnMatchStarted;
+            MatchManager.OnMatchStarted += OnMatchStarted;
 
             _canMove = false;
         }
 
         private void OnDisable()
         {
-            GameManager.OnMatchStarted -= OnMatchStarted;
+            MatchManager.OnMatchStarted -= OnMatchStarted;
         }
 
         private void OnMatchStarted()

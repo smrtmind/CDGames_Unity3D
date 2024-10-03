@@ -12,14 +12,14 @@ namespace Scripts.Characters
 
         private void OnEnable()
         {
-            GameManager.OnCoinsAmountChanged += RefreshCoins;
-            GameManager.OnBoardsAmountChanged += RefreshBoards;
+            MatchManager.OnCoinsAmountChanged += RefreshCoins;
+            MatchManager.OnBoardsAmountChanged += RefreshBoards;
         }
 
         private void OnDisable()
         {
-            GameManager.OnCoinsAmountChanged -= RefreshCoins;
-            GameManager.OnBoardsAmountChanged -= RefreshBoards;
+            MatchManager.OnCoinsAmountChanged -= RefreshCoins;
+            MatchManager.OnBoardsAmountChanged -= RefreshBoards;
         }
 
         private void RefreshCoins(int value) => _coins.text = $"{value}";

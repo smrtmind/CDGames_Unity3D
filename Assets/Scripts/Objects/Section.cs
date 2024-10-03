@@ -15,10 +15,10 @@ namespace Scripts.Objects
 
         public GameObject GameObject => gameObject;
 
-        private GameManager _gameSession;
+        private MatchManager _gameSession;
 
         [Inject]
-        private void Construct(GameManager gameSession)
+        private void Construct(MatchManager gameSession)
         {
             _gameSession = gameSession;
         }

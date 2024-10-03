@@ -1,46 +1,71 @@
 using Scripts.Managers;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Zenject;
 
 namespace Scripts.UI
 {
     public class UiController : MonoBehaviour
     {
-        [SerializeField] private UiElement _mainMenu;
+        [SerializeField] private UiElement _startScreen;
         [SerializeField] private UiElement _gameplayUi;
         [SerializeField] private UiElement _victoryScreen;
         [SerializeField] private UiElement _defeatScreen;
 
-        private AudioManager _audioManager;
+        private HashSet<UiElement> _allUiElements = new();
+        private UiElement _currentElement;
 
-        [Inject]
-        private void Construct(AudioManager audioManager)
+        private void Awake()
         {
-            _audioManager = audioManager;
+            _allUiElements = GetComponentsInChildren<UiElement>().ToHashSet();
         }
 
-        public void OnStart()
+        private void OnEnable()
         {
-            SceneManager.LoadScene("Level");
+            GameManager.OnAfterStateChanged += OnAfterStateChanged;
+
+            HideAllUiElements();
         }
 
-        public void OnReplay()
+        private void OnDisable()
         {
-            var scene = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(scene);
+            GameManager.OnAfterStateChanged -= OnAfterStateChanged;
         }
 
-        public void OnExit()
+        private void OnAfterStateChanged(GameState state)
         {
-            Application.Quit();
+            switch (state)
+            {
+                case GameState.StartScreen:
+                    _currentElement = _startScreen;
+                    _currentElement.Show();
+                    break;
+
+                case GameState.Gameplay:
+                    SwitchElementTo(_gameplayUi);
+                    break;
+
+                case GameState.Victory:
+                    SwitchElementTo(_victoryScreen);
+                    break;
+
+                case GameState.Defeat:
+                    SwitchElementTo(_defeatScreen);
+                    break;
+            }
         }
 
-        public void OnButtonPressed()
+        private void SwitchElementTo(UiElement element)
         {
-            _audioManager.PlaySfx("button");
+            _currentElement.Hide();
+            _currentElement = element;
+            _currentElement.Show();
+        }
+
+        private void HideAllUiElements()
+        {
+            foreach (var uiElement in _allUiElements)
+                uiElement.Hide();
         }
     }
 }

@@ -11,10 +11,10 @@ namespace Scripts.Characters
         [SerializeField] private LayerMask _target;
 
         private AudioManager _audioManager;
-        private GameManager _gameSession;
+        private MatchManager _gameSession;
 
         [Inject]
-        private void Construct(AudioManager audioManager, GameManager gameSession)
+        private void Construct(AudioManager audioManager, MatchManager gameSession)
         {
             _audioManager = audioManager;
             _gameSession = gameSession;

@@ -1,97 +1,55 @@
-using Scripts.Characters;
-using Scripts.Utils;
 using System;
 using UnityEngine;
-using Zenject;
 
 namespace Scripts.Managers
 {
+    [Serializable]
+    public enum GameState
+    {
+        None,
+        StartScreen,
+        Gameplay,
+        Victory,
+        Defeat
+    }
+
     public class GameManager : MonoBehaviour
     {
+        public static event Action<GameState> OnBeforeStateChanged;
+        public static event Action<GameState> OnAfterStateChanged;
 
-        [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
-        [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
-        [SerializeField] private SliderComponent _boardSlider;
+        public static GameManager Instance;
 
-        public static Action OnMatchStarted;
-        public static Action OnMatchEnded;
+        public GameState State { get; private set; }
 
-        public static Action<int> OnCoinsAmountChanged;
-        public static Action<int> OnBoardsAmountChanged;
-
-        private int _coins;
-
-        public bool MatchIsStarted { get; private set; }
-        public int Boards { get; private set; }
-
-        private Player _player;
-
-        [Inject]
-        private void Construct(Player player)
+        private void Awake()
         {
-            _player = player;
-        }
-
-        public void AddCoins(int value)
-        {
-            _coins += value;
-            OnCoinsAmountChanged?.Invoke(_coins);
-        }
-
-        public void AddBoards(int value)
-        {
-            Boards += value;
-            OnBoardsAmountChanged?.Invoke(Boards);
-        }
-
-        public void RemoveBoard()
-        {
-            Boards--;
-            OnBoardsAmountChanged?.Invoke(Boards);
-        }
-
-        private void OnEnable()
-        {
-            this.WaitForSeconds(TimerOnstart, () =>
+            if (Instance == null)
             {
-                MatchIsStarted = true;
-                OnMatchStarted?.Invoke();
-            });
-        }
-
-        private void Update()
-        {
-            //if (!_gameIsStarted)
-            //{
-            //    if (_onStartDelay > 0)
-            //    {
-            //        _onStartDelay -= Time.deltaTime;
-            //    }
-            //    else
-            //    {
-            //        _onStartDelay = 0;
-
-            //        OnMatchStarted?.Invoke();
-            //        _gameIsStarted = true;
-            //    }
-            //}
-
-            if (_player.IsDead || _player.gameObject.transform.position.y < -15f)
-                StopGame();
-
-            if (_coins == CoinsToWin)
+                Instance = this;
+                DontDestroyOnLoad(this);
+            }
+            else
             {
-                //StopGame(win: true);
-                //_player.IsWin = true;
+                Destroy(gameObject);
             }
         }
 
-        public void StopGame()
+        private void Start()
         {
-            //_gameOverLayout.SetActive(true);
+            Application.targetFrameRate = 60;
+            ChangeState(GameState.StartScreen);
+        }
 
-            //_followCamera.enabled = false;
-            _boardSlider.gameObject.SetActive(false);
+        public void ChangeState(GameState newState)
+        {
+            OnBeforeStateChanged?.Invoke(newState);
+            State = newState;
+            OnAfterStateChanged?.Invoke(newState);
+
+#if UNITY_EDITOR
+            Debug.Log($"<color=green>New state: {newState}</color>", this);
+#endif
         }
     }
 }

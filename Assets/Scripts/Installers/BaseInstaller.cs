@@ -2,6 +2,7 @@ using Scripts.Characters;
 using Scripts.Managers;
 using Scripts.Pooling;
 using Scripts.Service;
+using Scripts.UI;
 using UnityEngine;
 using Zenject;
 
@@ -10,10 +11,11 @@ namespace Unavinar.Installers
     public class BaseInstaller : MonoInstaller
     {
         [SerializeField] private Player _player;
-        [SerializeField] private GameManager _gameManager;
+        [SerializeField] private MatchManager _gameManager;
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private ObjectPool _objectPool;
         [SerializeField] private CameraController _cameraController;
+        [SerializeField] private BoardControlSlider _boardControlSlider;
 
         public override void InstallBindings()
         {
@@ -22,6 +24,7 @@ namespace Unavinar.Installers
             InstallAudioManager();
             InstallObjectPool();
             InstallCameraController();
+            InstallBoardControlSlider();
         }
 
         private void InstallPlayerController()
@@ -32,7 +35,7 @@ namespace Unavinar.Installers
 
         private void InstallGameSession()
         {
-            Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle().NonLazy();
+            Container.Bind<MatchManager>().FromInstance(_gameManager).AsSingle().NonLazy();
             Container.QueueForInject(_gameManager);
         }
 
@@ -52,6 +55,12 @@ namespace Unavinar.Installers
         {
             Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle().NonLazy();
             Container.QueueForInject(_cameraController);
+        }
+
+        private void InstallBoardControlSlider()
+        {
+            Container.Bind<BoardControlSlider>().FromInstance(_boardControlSlider).AsSingle().NonLazy();
+            Container.QueueForInject(_boardControlSlider);
         }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Scripts.Utils
 {
@@ -10,7 +11,8 @@ namespace Scripts.Utils
         [SerializeField] private float _spawnDelay;
         [SerializeField] private float _rotateMultiplier;
         [SerializeField] private float _smoothPower;
-        [SerializeField] private GameSession _session;
+
+        private GameSession _gameSession;
 
         private float _time;
         private float _nextBoardPosition;
@@ -27,6 +29,12 @@ namespace Scripts.Utils
         public Slider slider => _slider;
         public bool SliderIsTouching => _sliderIsTouching;
 
+        [Inject]
+        private void Construct(GameSession gameSession)
+        {
+            _gameSession = gameSession;
+        }
+
         private void Start()
         {
             Application.targetFrameRate = 60;
@@ -34,14 +42,14 @@ namespace Scripts.Utils
 
         private void Update()
         {
-            if (_spawnBoards && _session.Boards > 0)
+            if (_spawnBoards && _gameSession.Boards > 0)
             {
                 _time += Time.deltaTime;
 
                 if (_time > _spawnDelay)
                 {
                     _time = 0;
-                    _session.Boards--;
+                    _gameSession.RemoveBoard();
 
                     Transform board = Instantiate(_boardPrefab, new Vector3(0, _nextBoardPosition), Quaternion.Euler(_nextBoardRotation, 0, 0)).transform;
 

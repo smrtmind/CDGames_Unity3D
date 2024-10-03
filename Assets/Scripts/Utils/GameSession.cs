@@ -1,5 +1,7 @@
-using Scripts.Player;
+using Scripts.Characters;
+using System;
 using UnityEngine;
+using Zenject;
 
 namespace Scripts.Utils
 {
@@ -8,74 +10,101 @@ namespace Scripts.Utils
         [SerializeField] private GameObject _gameOverLayout;
         [SerializeField] private GameObject _victoryLayout;
         [SerializeField] private FollowCamera _followCamera;
-        [SerializeField] private int _boards;
-        [SerializeField] private int _coins;
-        [SerializeField] private int _coinsToWin = 100;
-        [SerializeField] private float _onStartDelay = 3f;
-        [SerializeField] private PlayerController _player;
+        [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
+        [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
         [SerializeField] private SliderComponent _boardSlider;
 
-        public int CoinsToWin => _coinsToWin;
+        public static Action OnMatchStarted;
+        public static Action OnMatchEnded;
 
-        public int Boards
+        public static Action<int> OnCoinsAmountChanged;
+        public static Action<int> OnBoardsAmountChanged;
+
+        private int _coins;
+
+        public bool MatchIsStarted { get; private set; }
+        public int Boards { get; private set; }
+
+        private PlayerController _player;
+
+        [Inject]
+        private void Construct(PlayerController player)
         {
-            get => _boards;
-            set => _boards = value;
+            _player = player;
         }
 
-        public int Coins => _coins;
-
-        private bool _gameIsStarted;
-        public bool GameIsStarted
+        public void AddCoins(int value)
         {
-            get => _gameIsStarted;
-            set => _gameIsStarted = value;
+            _coins += value;
+            OnCoinsAmountChanged?.Invoke(_coins);
         }
 
-        public float OnStartDelay => _onStartDelay;
+        public void AddBoards(int value)
+        {
+            Boards += value;
+            OnBoardsAmountChanged?.Invoke(Boards);
+        }
 
-        public void ModifyBoards(int value) => _boards += value;
+        public void RemoveBoard()
+        {
+            Boards--;
+            OnBoardsAmountChanged?.Invoke(Boards);
+        }
 
-        public void ModifyCoins(int value) => _coins += value;
+        private void OnEnable()
+        {
+            OnMatchEnded += StopGame;
+
+            this.WaitForSeconds(TimerOnstart, () =>
+            {
+                MatchIsStarted = true;
+                OnMatchStarted?.Invoke();
+            });
+        }
+
+        private void OnDisable()
+        {
+            OnMatchEnded -= StopGame;
+        }
 
         private void Update()
         {
-            if (!_gameIsStarted)
-            {
-                if (_onStartDelay > 0)
-                {
-                    _onStartDelay -= Time.deltaTime;
-                }
-                else
-                {
-                    _onStartDelay = 0;
+            //if (!_gameIsStarted)
+            //{
+            //    if (_onStartDelay > 0)
+            //    {
+            //        _onStartDelay -= Time.deltaTime;
+            //    }
+            //    else
+            //    {
+            //        _onStartDelay = 0;
 
-                    _player.IsRunning = true;
-                    _gameIsStarted = true;
-                }
-            }
+            //        OnMatchStarted?.Invoke();
+            //        _gameIsStarted = true;
+            //    }
+            //}
 
             if (_player.IsDead || _player.gameObject.transform.position.y < -15f)
                 StopGame();
 
-            if (_coins == _coinsToWin)
+            if (_coins == CoinsToWin)
             {
-                StopGame(win: true);
-                _player.IsWin = true;
+                //StopGame(win: true);
+                //_player.IsWin = true;
             }
         }
 
-        public void StopGame(bool win = false)
+        public void StartGame()
         {
-            if (!win)
-                _gameOverLayout.SetActive(true);
-            else
-                _victoryLayout.SetActive(true);
+            _victoryLayout.SetActive(true);
+        }
+
+        public void StopGame()
+        {
+            _gameOverLayout.SetActive(true);
 
             _followCamera.enabled = false;
-
             _boardSlider.gameObject.SetActive(false);
-            _gameIsStarted = false;
         }
     }
 }

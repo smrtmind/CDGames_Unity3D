@@ -1,30 +1,41 @@
-using Scripts.Player;
-using Scripts.Utils;
+using Scripts.Characters;
+using Scripts.Service;
 using UnityEngine;
+using Zenject;
 
 namespace Scripts.Objects
 {
     public class ObstacleComponent : MonoBehaviour
     {
-        private PlayerController _player;
-        private GameSession _session;
+        [SerializeField] private LayerMask _target;
 
-        private void Awake()
+        private PlayerController _player;
+
+        [Inject]
+        private void Construct(PlayerController player)
         {
-            _player = FindObjectOfType<PlayerController>();
-            _session = FindObjectOfType<GameSession>();
+            _player = player;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            var player = collision.gameObject.tag == "Player";
-            if (player)
+            if ((_target & (1 << collision.gameObject.layer)) != 0)
             {
                 FindObjectOfType<AudioComponent>().PlaySfx("hit");
-                _player.IsDead = true;
-
-                _session.StopGame();
+                _player.Die();
             }
         }
+
+        //private void OnCollisionEnter(Collision collision)
+        //{
+        //    var player = collision.gameObject.tag == "Player";
+        //    if (player)
+        //    {
+        //        FindObjectOfType<AudioComponent>().PlaySfx("hit");
+        //        _player.IsDead = true;
+
+        //        _session.StopGame();
+        //    }
+        //}
     }
 }

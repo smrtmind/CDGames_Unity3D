@@ -64,7 +64,10 @@ namespace Scripts.Spawners
         private void ReleaseAllSections()
         {
             foreach (var section in _activeSections)
-                section?.Release();
+            {
+                if (section != null)
+                    section.Release();
+            }
 
             _activeSections.Clear();
         }

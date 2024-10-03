@@ -9,10 +9,10 @@ namespace Scripts.Objects
     {
         [SerializeField] private LayerMask _target;
 
-        private PlayerController _player;
+        private Player _player;
 
         [Inject]
-        private void Construct(PlayerController player)
+        private void Construct(Player player)
         {
             _player = player;
         }

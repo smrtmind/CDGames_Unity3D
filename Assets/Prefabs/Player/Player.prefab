@@ -268,8 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e342e6516655b5a4eb223970f1c49e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boards: {fileID: 7722035555834029700}
   _coins: {fileID: 9202554692101493929}
+  _boards: {fileID: 7722035555834029700}
 --- !u!1 &1405653925737426150
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,13 +990,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3883115712988642103}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d47776c38248ed469e46951c6e3e7eb, type: 3}
+  m_Script: {fileID: 11500000, guid: a224ee7fa234982499a37b1ffead57f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animationsController: {fileID: 1045307880253248871}
-  _body: {fileID: 3883115712988642106}
-  _gravityMultiplier: 250
-  _groundBeemLength: 5
+  _rigidBody: {fileID: 3883115712988642106}
+  _gravityMultiplier: 50
+  _groundBeemLength: 2
 --- !u!114 &1556109640892875996
 MonoBehaviour:
   m_ObjectHideFlags: 0

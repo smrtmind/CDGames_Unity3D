@@ -8,9 +8,7 @@ namespace Scripts.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private GameObject _gameOverLayout;
-        [SerializeField] private GameObject _victoryLayout;
-        [SerializeField] private FollowCamera _followCamera;
+
         [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
         [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
         [SerializeField] private SliderComponent _boardSlider;
@@ -26,10 +24,10 @@ namespace Scripts.Managers
         public bool MatchIsStarted { get; private set; }
         public int Boards { get; private set; }
 
-        private PlayerController _player;
+        private Player _player;
 
         [Inject]
-        private void Construct(PlayerController player)
+        private void Construct(Player player)
         {
             _player = player;
         }
@@ -54,18 +52,11 @@ namespace Scripts.Managers
 
         private void OnEnable()
         {
-            OnMatchEnded += StopGame;
-
             this.WaitForSeconds(TimerOnstart, () =>
             {
                 MatchIsStarted = true;
                 OnMatchStarted?.Invoke();
             });
-        }
-
-        private void OnDisable()
-        {
-            OnMatchEnded -= StopGame;
         }
 
         private void Update()
@@ -95,16 +86,11 @@ namespace Scripts.Managers
             }
         }
 
-        public void StartGame()
-        {
-            _victoryLayout.SetActive(true);
-        }
-
         public void StopGame()
         {
-            _gameOverLayout.SetActive(true);
+            //_gameOverLayout.SetActive(true);
 
-            _followCamera.enabled = false;
+            //_followCamera.enabled = false;
             _boardSlider.gameObject.SetActive(false);
         }
     }

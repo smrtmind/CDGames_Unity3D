@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Scripts.Characters
 {
-    public class PlayerController : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         [SerializeField] private AnimationsController _animationsController;
-        [SerializeField] private Rigidbody _body;
+        [SerializeField] private Rigidbody _rigidBody;
         [SerializeField] private float _gravityMultiplier = 1f;
 
 
@@ -98,7 +98,7 @@ namespace Scripts.Characters
             _boardSlider.slider.enabled = _canMove;
 
             if (!IsGrounded())
-                _body.AddForce(new Vector3(0f, -_gravityMultiplier, 0f));
+                _rigidBody.AddForce(new Vector3(0f, -_gravityMultiplier, 0f));
 
             //UpdateAnimation();
         }

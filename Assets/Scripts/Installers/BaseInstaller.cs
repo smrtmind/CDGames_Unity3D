@@ -9,7 +9,7 @@ namespace Unavinar.Installers
 {
     public class BaseInstaller : MonoInstaller
     {
-        [SerializeField] private PlayerController _playerController;
+        [SerializeField] private Player _player;
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private ObjectPool _objectPool;
@@ -26,8 +26,8 @@ namespace Unavinar.Installers
 
         private void InstallPlayerController()
         {
-            Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle().NonLazy();
-            Container.QueueForInject(_playerController);
+            Container.Bind<Player>().FromInstance(_player).AsSingle().NonLazy();
+            Container.QueueForInject(_player);
         }
 
         private void InstallGameSession()

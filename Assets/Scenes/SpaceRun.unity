@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.06908528, g: 0.04246044, b: 0.18009004, a: 1}
+  m_IndirectSpecularColor: {r: 0.06696184, g: 0.040954284, b: 0.1762673, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -214,9 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fef271e7fa3da24cb9c0b997f9eea2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameOverLayout: {fileID: 1142359969}
-  _victoryLayout: {fileID: 2145498717}
-  _followCamera: {fileID: 963194230}
   <CoinsToWin>k__BackingField: 100
   <TimerOnstart>k__BackingField: 3
   _boardSlider: {fileID: 487516715}
@@ -822,7 +819,6 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
-  - component: {fileID: 963194230}
   - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: MainCamera
@@ -910,24 +906,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationSpeed: -2
---- !u!114 &963194230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf76988dd126eb4b8b37189ed8e9c10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _offset: {x: 8.44, y: 6.3, z: -15}
---- !u!1 &1142359969 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1876525418924363359, guid: b880fe40789bf124fb3dd15d5cbda48d, type: 3}
-  m_PrefabInstance: {fileID: 1876525419930143230}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1142359970 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1876525418924363356, guid: b880fe40789bf124fb3dd15d5cbda48d, type: 3}
@@ -941,7 +919,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d47776c38248ed469e46951c6e3e7eb, type: 3}
+  m_Script: {fileID: 11500000, guid: a224ee7fa234982499a37b1ffead57f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1634801628
@@ -1050,7 +1028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7544c2379fee5714b8ac81fd5c9bdb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerController: {fileID: 1310572502}
+  _player: {fileID: 1310572502}
   _gameManager: {fileID: 59183169}
   _audioManager: {fileID: 2130601738}
   _objectPool: {fileID: 1634801629}
@@ -1202,11 +1180,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130601735}
   m_Enabled: 1
---- !u!1 &2145498717 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4079959695084622912, guid: 99311300872060f4891f12a4a8d96f3f, type: 3}
-  m_PrefabInstance: {fileID: 4079959693895639581}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2145498718 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4079959695084622915, guid: 99311300872060f4891f12a4a8d96f3f, type: 3}
@@ -1535,11 +1508,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4553509260640909809, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4553509260640909809, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4553509261999710398, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
       propertyPath: m_Pivot.x
@@ -1625,17 +1598,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayUi
       objectReference: {fileID: 0}
+    - target: {fileID: 4553509261999710399, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4553509262320445305, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4553509262320445305, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4553509262320445305, guid: f285540d3e8003d43982f5c417f7ae5c, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,3 +1,4 @@
+using Scripts.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,7 +13,7 @@ namespace Scripts.Utils
         [SerializeField] private float _rotateMultiplier;
         [SerializeField] private float _smoothPower;
 
-        private GameSession _gameSession;
+        private GameManager _gameSession;
 
         private float _time;
         private float _nextBoardPosition;
@@ -30,7 +31,7 @@ namespace Scripts.Utils
         public bool SliderIsTouching => _sliderIsTouching;
 
         [Inject]
-        private void Construct(GameSession gameSession)
+        private void Construct(GameManager gameSession)
         {
             _gameSession = gameSession;
         }

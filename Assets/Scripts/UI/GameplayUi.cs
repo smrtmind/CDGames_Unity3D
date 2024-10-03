@@ -1,3 +1,4 @@
+using Scripts.Managers;
 using Scripts.Utils;
 using System.Collections;
 using TMPro;
@@ -13,25 +14,25 @@ namespace Scripts.UI
         [SerializeField] private TMP_Text _timer;
         [SerializeField] private GameObject _tutorialHint;
 
-        private GameSession _gameSession;
+        private GameManager _gameSession;
         private Coroutine _timerRoutine;
 
         [Inject]
-        private void Construct(GameSession gameSession)
+        private void Construct(GameManager gameSession)
         {
             _gameSession = gameSession;
         }
 
         private void OnEnable()
         {
-            GameSession.OnMatchStarted += OnMatchStarted;
+            GameManager.OnMatchStarted += OnMatchStarted;
 
             InitCoinsBar();
         }
 
         private void OnDisable()
         {
-            GameSession.OnMatchStarted -= OnMatchStarted;
+            GameManager.OnMatchStarted -= OnMatchStarted;
 
             this.StopCoroutine(ref _timerRoutine);
         }

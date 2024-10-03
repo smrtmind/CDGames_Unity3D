@@ -1,4 +1,4 @@
-using Scripts.Service;
+using Scripts.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,11 +6,11 @@ namespace Scripts.Hud
 {
     public class MenuController : MonoBehaviour
     {
-        private AudioComponent _audio;
+        private AudioManager _audio;
 
         private void Awake()
         {
-            _audio = FindObjectOfType<AudioComponent>();
+            _audio = FindObjectOfType<AudioManager>();
         }
 
         public void OnStart()

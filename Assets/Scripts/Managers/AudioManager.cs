@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace Scripts.Service
+namespace Scripts.Managers
 {
-    public class AudioComponent : MonoBehaviour
+    public class AudioManager : MonoBehaviour
     {
         [SerializeField] private AudioSource _sfxSource;
         [SerializeField] private AudioSource _musicSource;

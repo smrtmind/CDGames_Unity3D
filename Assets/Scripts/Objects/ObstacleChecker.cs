@@ -1,11 +1,11 @@
 using Scripts.Characters;
-using Scripts.Service;
+using Scripts.Managers;
 using UnityEngine;
 using Zenject;
 
 namespace Scripts.Objects
 {
-    public class ObstacleComponent : MonoBehaviour
+    public class ObstacleChecker : MonoBehaviour
     {
         [SerializeField] private LayerMask _target;
 
@@ -21,7 +21,7 @@ namespace Scripts.Objects
         {
             if ((_target & (1 << collision.gameObject.layer)) != 0)
             {
-                FindObjectOfType<AudioComponent>().PlaySfx("hit");
+                FindObjectOfType<AudioManager>().PlaySfx("hit");
                 _player.Die();
             }
         }

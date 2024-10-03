@@ -1,6 +1,5 @@
+using Scripts.Managers;
 using Scripts.Objects;
-using Scripts.Service;
-using Scripts.Utils;
 using UnityEngine;
 using Zenject;
 using static Scripts.Utils.Enums;
@@ -11,11 +10,11 @@ namespace Scripts.Characters
     {
         [SerializeField] private LayerMask _target;
 
-        private AudioComponent _audioManager;
-        private GameSession _gameSession;
+        private AudioManager _audioManager;
+        private GameManager _gameSession;
 
         [Inject]
-        private void Construct(AudioComponent audioManager, GameSession gameSession)
+        private void Construct(AudioManager audioManager, GameManager gameSession)
         {
             _audioManager = audioManager;
             _gameSession = gameSession;

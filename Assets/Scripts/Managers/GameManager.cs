@@ -1,11 +1,12 @@
 using Scripts.Characters;
+using Scripts.Utils;
 using System;
 using UnityEngine;
 using Zenject;
 
-namespace Scripts.Utils
+namespace Scripts.Managers
 {
-    public class GameSession : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         [SerializeField] private GameObject _gameOverLayout;
         [SerializeField] private GameObject _victoryLayout;

@@ -1,33 +1,32 @@
-using Scripts.Characters;
+using Scripts.Objects;
+using Scripts.Pooling;
+using Scripts.Utils;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using Scripts.Utils;
-using Scripts.Objects;
-using System.Collections.Generic;
-using Scripts.Pooling;
 
-namespace Scripts.Service
+namespace Scripts.Spawners
 {
     public class SectionsSpawner : MonoBehaviour
     {
-        [SerializeField] private Section[] _sections;
+        [Header("Storages")]
+        [SerializeField] private SectionsStorage _sectionsStorage;
+
+        [Header("Parameters")]
         [SerializeField, Min(1f)] private float _sectionLength = 40f;
         [SerializeField, Min(0.1f)] private float _spawnDelay = 3f;
 
         private HashSet<Section> _activeSections = new();
-        private PlayerController _player;
+        private ObjectPool _objectPool;
         private Coroutine _spawnRoutine;
         private WaitForSeconds _waitForSpawnDelay;
-        private ObjectPool _objectPool;
 
         private float _positionByZ;
-        private bool _creatingSection = false;
 
         [Inject]
-        private void Construct(PlayerController player, ObjectPool objectPool)
+        private void Construct(ObjectPool objectPool)
         {
-            _player = player;
             _objectPool = objectPool;
         }
 
@@ -46,46 +45,34 @@ namespace Scripts.Service
         {
             while (true)
             {
-                _positionByZ += _sectionLength;
                 SpawnNewSection();
+                _positionByZ += _sectionLength;
 
                 yield return _waitForSpawnDelay;
             }
         }
 
-        //private void Update()
-        //{
-        //    if (!_player.IsDead)
-        //    {
-        //        if (!_creatingSection)
-        //        {
-        //            _creatingSection = true;
-
-        //            _positionByZ += _sectionLength;
-        //        }
-        //    }
-        //}
-
         private void SpawnNewSection()
         {
-            var randomSection = _sections[Random.Range(0, _sections.Length)];
-            var section = _objectPool.Get(randomSection);
+            var section = _objectPool.Get(_sectionsStorage.GetRandomSectionPrefab());
             section.transform.position = new Vector3(0f, 0f, _positionByZ);
             section.transform.rotation = Quaternion.identity;
 
-            ////choose random section from the array of ready sections
-            //Instantiate(_sections[GetRandomIndex()], new Vector3(0f, 0f, _positionByZ), Quaternion.identity);
-
-            //yield return new WaitForSeconds(_spawnDelay);
-
-            //_creatingSection = false;
+            _activeSections.Add(section);
         }
 
-        //private int GetRandomIndex() => Random.Range(0, _sections.Length);
+        private void ReleaseAllSections()
+        {
+            foreach (var section in _activeSections)
+                section?.Release();
+
+            _activeSections.Clear();
+        }
 
         private void OnDisable()
         {
             this.StopCoroutine(ref _spawnRoutine);
+            ReleaseAllSections();
         }
     }
 }

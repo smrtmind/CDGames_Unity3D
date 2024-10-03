@@ -1,3 +1,4 @@
+using Scripts.Managers;
 using Scripts.Utils;
 using System;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Scripts.Characters
         public void Die()
         {
             IsDead = true;
-            GameSession.OnMatchEnded?.Invoke();
+            GameManager.OnMatchEnded?.Invoke();
         }
 
         //private bool _isGrounded;
@@ -49,14 +50,14 @@ namespace Scripts.Characters
 
         private void OnEnable()
         {
-            GameSession.OnMatchStarted += OnMatchStarted;
+            GameManager.OnMatchStarted += OnMatchStarted;
 
             _canMove = false;
         }
 
         private void OnDisable()
         {
-            GameSession.OnMatchStarted -= OnMatchStarted;
+            GameManager.OnMatchStarted -= OnMatchStarted;
         }
 
         private void OnMatchStarted()

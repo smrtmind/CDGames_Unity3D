@@ -1,3 +1,4 @@
+using Scripts.Managers;
 using Scripts.Utils;
 using System;
 using UnityEngine;
@@ -14,10 +15,10 @@ namespace Scripts.Objects
 
         public GameObject GameObject => gameObject;
 
-        private GameSession _gameSession;
+        private GameManager _gameSession;
 
         [Inject]
-        private void Construct(GameSession gameSession)
+        private void Construct(GameManager gameSession)
         {
             _gameSession = gameSession;
         }

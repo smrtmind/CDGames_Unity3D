@@ -1,7 +1,7 @@
 using Scripts.Characters;
+using Scripts.Managers;
 using Scripts.Pooling;
 using Scripts.Service;
-using Scripts.Utils;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +10,10 @@ namespace Unavinar.Installers
     public class BaseInstaller : MonoInstaller
     {
         [SerializeField] private PlayerController _playerController;
-        [SerializeField] private GameSession _gameSession;
-        [SerializeField] private AudioComponent _audioManager;
+        [SerializeField] private GameManager _gameManager;
+        [SerializeField] private AudioManager _audioManager;
         [SerializeField] private ObjectPool _objectPool;
+        [SerializeField] private CameraController _cameraController;
 
         public override void InstallBindings()
         {
@@ -20,6 +21,7 @@ namespace Unavinar.Installers
             InstallGameSession();
             InstallAudioManager();
             InstallObjectPool();
+            InstallCameraController();
         }
 
         private void InstallPlayerController()
@@ -30,13 +32,13 @@ namespace Unavinar.Installers
 
         private void InstallGameSession()
         {
-            Container.Bind<GameSession>().FromInstance(_gameSession).AsSingle().NonLazy();
-            Container.QueueForInject(_gameSession);
+            Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle().NonLazy();
+            Container.QueueForInject(_gameManager);
         }
 
         private void InstallAudioManager()
         {
-            Container.Bind<AudioComponent>().FromInstance(_audioManager).AsSingle().NonLazy();
+            Container.Bind<AudioManager>().FromInstance(_audioManager).AsSingle().NonLazy();
             Container.QueueForInject(_audioManager);
         }
 
@@ -44,6 +46,12 @@ namespace Unavinar.Installers
         {
             Container.Bind<ObjectPool>().FromInstance(_objectPool).AsSingle().NonLazy();
             Container.QueueForInject(_objectPool);
+        }
+
+        private void InstallCameraController()
+        {
+            Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle().NonLazy();
+            Container.QueueForInject(_cameraController);
         }
     }
 }

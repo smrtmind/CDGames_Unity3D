@@ -1,3 +1,4 @@
+using Scripts.Managers;
 using Scripts.Utils;
 using TMPro;
 using UnityEngine;
@@ -11,14 +12,14 @@ namespace Scripts.Characters
 
         private void OnEnable()
         {
-            GameSession.OnCoinsAmountChanged += RefreshCoins;
-            GameSession.OnBoardsAmountChanged += RefreshBoards;
+            GameManager.OnCoinsAmountChanged += RefreshCoins;
+            GameManager.OnBoardsAmountChanged += RefreshBoards;
         }
 
         private void OnDisable()
         {
-            GameSession.OnCoinsAmountChanged -= RefreshCoins;
-            GameSession.OnBoardsAmountChanged -= RefreshBoards;
+            GameManager.OnCoinsAmountChanged -= RefreshCoins;
+            GameManager.OnBoardsAmountChanged -= RefreshBoards;
         }
 
         private void RefreshCoins(int value) => _coins.text = $"{value}";

@@ -45,19 +45,28 @@ namespace Scripts.Spawners
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
 
-            this.StopCoroutine(ref _spawnRoutine);
+            StopSpawn();
             ReleaseAllSections();
         }
 
         private void OnAfterStateChanged(GameState state)
         {
-            if (state != GameState.Gameplay) return;
+            switch (state)
+            {
+                case GameState.Gameplay:
+                    if (_spawnRoutine == null)
+                        _spawnRoutine = StartCoroutine(StartSpawn());
 
-            if (_spawnRoutine == null)
-                _spawnRoutine = StartCoroutine(SpawnLoop());
+                    break;
+
+                case GameState.Victory:
+                case GameState.Defeat:
+                    StopSpawn();
+                    break;
+            }
         }
 
-        private IEnumerator SpawnLoop()
+        private IEnumerator StartSpawn()
         {
             while (true)
             {
@@ -76,6 +85,8 @@ namespace Scripts.Spawners
 
             _activeSections.Add(section);
         }
+
+        private void StopSpawn() => this.StopCoroutine(ref _spawnRoutine);
 
         private void ReleaseAllSections()
         {

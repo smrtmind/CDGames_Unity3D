@@ -1,5 +1,4 @@
 using Scripts.Managers;
-using Scripts.Utils;
 using System;
 using UnityEngine;
 using Zenject;
@@ -15,20 +14,24 @@ namespace Scripts.Objects
 
         public GameObject GameObject => gameObject;
 
-        private MatchManager _gameSession;
+        private MatchManager _matchManager;
+        private GameManager _gameManager;
 
         [Inject]
-        private void Construct(MatchManager gameSession)
+        private void Construct(MatchManager matchManager, GameManager gameManager)
         {
-            _gameSession = gameSession;
+            _matchManager = matchManager;
+            _gameManager = gameManager;
         }
 
         private void Update()
         {
-            if (!_gameSession.MatchIsStarted) return;
+            if (!_matchManager.IsStarted || _gameManager.State != GameState.Gameplay) return;
 
-            transform.position = new Vector3(0f, 0f, transform.position.z + _movingSpeed);
+            Move();
         }
+
+        private void Move() => transform.position = new Vector3(0f, 0f, transform.position.z + _movingSpeed);
 
         public void Release() => Destroyed?.Invoke(this);
     }

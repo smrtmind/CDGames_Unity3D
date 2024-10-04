@@ -33,11 +33,16 @@ namespace Scripts.Spawners
 
         private void OnEnable()
         {
+            Subscribe();
+        }
+
+        private void Subscribe()
+        {
             BoardControlSlider.OnTouched += StartSpawn;
             BoardControlSlider.OnReleased += StopSpawn;
         }
 
-        private void OnDisable()
+        private void Unsubscribe()
         {
             BoardControlSlider.OnTouched -= StartSpawn;
             BoardControlSlider.OnReleased -= StopSpawn;
@@ -67,16 +72,23 @@ namespace Scripts.Spawners
                 }
             }
             else
+            {
                 _nextBoardPosition = 0f;
+            }
         }
 
         private Transform GetNewBoard()
         {
             var board = _objectPool.Get(_board);
-            board.transform.position = new Vector3(0, _nextBoardPosition);
+            board.transform.position = new Vector3(0, _nextBoardPosition, transform.position.z);
             board.transform.rotation = Quaternion.Euler(_nextBoardRotation, 0f, 0f);
 
             return board.transform;
+        }
+
+        private void OnDisable()
+        {
+            Unsubscribe();
         }
     }
 }

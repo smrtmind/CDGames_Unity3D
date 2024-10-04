@@ -1,3 +1,4 @@
+using Scripts.Managers;
 using Scripts.Objects;
 using Scripts.Pooling;
 using Scripts.Utils;
@@ -37,6 +38,21 @@ namespace Scripts.Spawners
 
         private void OnEnable()
         {
+            GameManager.OnAfterStateChanged += OnAfterStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.OnAfterStateChanged -= OnAfterStateChanged;
+
+            this.StopCoroutine(ref _spawnRoutine);
+            ReleaseAllSections();
+        }
+
+        private void OnAfterStateChanged(GameState state)
+        {
+            if (state != GameState.Gameplay) return;
+
             if (_spawnRoutine == null)
                 _spawnRoutine = StartCoroutine(SpawnLoop());
         }
@@ -70,12 +86,6 @@ namespace Scripts.Spawners
             }
 
             _activeSections.Clear();
-        }
-
-        private void OnDisable()
-        {
-            this.StopCoroutine(ref _spawnRoutine);
-            ReleaseAllSections();
         }
     }
 }

@@ -1,7 +1,7 @@
 using Scripts.Managers;
-using Scripts.Utils;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Scripts.Characters
 {
@@ -9,115 +9,91 @@ namespace Scripts.Characters
     {
         [SerializeField] private AnimationsController _animationsController;
         [SerializeField] private Rigidbody _rigidBody;
-        [SerializeField] private float _gravityMultiplier = 1f;
+        [SerializeField] private Collider _collider;
 
+        [Space]
+        [SerializeField] private LayerMask _targetGround;
+        [SerializeField, Min(0.5f)] private float _raycastLength = 2f;
+        [SerializeField] private float _losePositionByY = -15f;
 
+        public static Action OnPlayerLost;
 
-        [SerializeField] private float _groundBeemLength = 2f;
+        private AudioManager _audioManager;
 
-        private SliderComponent _boardSlider;
-
-        public bool IsDead { get; private set; }
-
-        public void Die()
+        [Inject]
+        private void Construct(AudioManager audioManager)
         {
-            IsDead = true;
-            MatchManager.OnMatchEnded?.Invoke();
+            _audioManager = audioManager;
         }
-
-        //private bool _isGrounded;
-
-
-        //public bool IsRunning
-        //{
-        //    get => _isRunning;
-        //    set => _isRunning = value;
-        //}
-
-        //public bool IsDead
-        //{
-        //    get => _isDead;
-        //    set => _isDead = value;
-        //}
-
-        //public bool IsWin
-        //{
-        //    get => _isWin;
-        //    set => _isWin = value;
-        //}
-
-        private bool _canMove;
 
         private void OnEnable()
         {
+            Subscribe();
+
+            _rigidBody.useGravity = false;
+        }
+
+        private void Subscribe()
+        {
+            GameManager.OnAfterStateChanged += OnAfterStateChanged;
             MatchManager.OnMatchStarted += OnMatchStarted;
-
-            _canMove = false;
+            MatchManager.OnMatchEnded += OnMatchEnded;
         }
 
-        private void OnDisable()
+        private void Unsubscribe()
         {
+            GameManager.OnAfterStateChanged -= OnAfterStateChanged;
             MatchManager.OnMatchStarted -= OnMatchStarted;
+            MatchManager.OnMatchEnded -= OnMatchEnded;
         }
 
-        private void OnMatchStarted()
+        private void OnAfterStateChanged(GameState state)
         {
-            _canMove = true;
+            if (state != GameState.Gameplay) return;
 
+            _rigidBody.useGravity = true;
         }
 
-        public bool _slideUp { get; set; }
-        public bool _slideDown { get; set; }
+        private void OnMatchStarted() => _animationsController.Run();
 
-        private void Awake()
-        {
-            _boardSlider = FindObjectOfType<SliderComponent>();
-        }
+        private void OnMatchEnded() => _animationsController.Win();
 
         private void Update()
         {
-            //_isGrounded = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), _groundBeemLength);
-            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * _groundBeemLength, Color.red);
-
-            if (_canMove)
+            if (transform.position.y < _losePositionByY)
             {
-                if (_boardSlider.SliderIsTouching)
-                {
-                    _boardSlider.slider.interactable = true;
-                    _boardSlider.SpawnBoards = true;
-                }
-                else
-                {
-                    _boardSlider.slider.value = 0;
-
-                    _boardSlider.slider.interactable = false;
-                    _boardSlider.SpawnBoards = false;
-                }
+                OnPlayerLost?.Invoke();
+                Destroy(gameObject);
             }
 
-            _boardSlider.slider.enabled = _canMove;
-
-            if (!IsGrounded())
-                _rigidBody.AddForce(new Vector3(0f, -_gravityMultiplier, 0f));
-
-            //UpdateAnimation();
+            if (IsGrounded())
+                _animationsController.Run();
+            else
+                _animationsController.Fall();
         }
 
         private bool IsGrounded()
         {
-            var isGrounded = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), _groundBeemLength);
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * _groundBeemLength, Color.red);
+            var isGrounded = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), _raycastLength, _targetGround);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * _raycastLength, Color.red);
 
             return isGrounded;
         }
 
-        //private void UpdateAnimation()
-        //{
-        //    _animator.SetBool(IsRunningKey, _isRunning);
-        //    _animator.SetBool(IsDeadKey, _isDead);
-        //    _animator.SetBool(IsWinKey, _isWin);
+        public void Die()
+        {
+            _animationsController.Lose();
+            _audioManager.PlaySfx("hit");
 
-        //    //_animator.SetBool(IsFallingKey, !_isGrounded);  
-        //}
+            _collider.enabled = false;
+            _rigidBody.useGravity = false;
+
+            OnPlayerLost?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+        }
     }
 }

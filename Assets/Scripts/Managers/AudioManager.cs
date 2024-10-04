@@ -1,57 +1,37 @@
-using System;
 using UnityEngine;
 
 namespace Scripts.Managers
 {
     public class AudioManager : MonoBehaviour
     {
-        [SerializeField] private AudioSource _sfxSource;
         [SerializeField] private AudioSource _musicSource;
-        [SerializeField] private Sound[] _clips;
-
-        public AudioSource SfxSource => _sfxSource;
-        public AudioSource MusicSource => _musicSource;
-
-        public void SetSfxVolume(float volume) => _sfxSource.volume = volume;
-
-        public void SetMusicVolume(float volume) => _musicSource.volume = volume;
+        [SerializeField] private AudioSource _sfxSource;
+        [SerializeField] private SoundData[] _soundDatas;
 
         public void PlaySfx(string name)
         {
-            foreach (var clip in _clips)
+            foreach (var data in _soundDatas)
             {
-                if (clip.Name == name)
-                    _sfxSource.PlayOneShot(clip.Clip);
+                if (data.Name == name)
+                {
+                    _sfxSource.PlayOneShot(data.Clip);
+                    break;
+                }
             }
         }
 
         public void SetMusicTrack(string name)
         {
-            foreach (var clip in _clips)
+            foreach (var data in _soundDatas)
             {
-                if (clip.Name == name)
+                if (data.Name == name)
                 {
-                    _musicSource.clip = clip.Clip;
+                    _musicSource.clip = data.Clip;
                     _musicSource.Play();
+
+                    break;
                 }
             }
         }
-
-        public void PlayMusic() => _musicSource.Play();
-
-        public void PauseMusic() => _musicSource.Pause();
-
-        public void StopMusic() => _musicSource.Stop();
-
-    }
-
-    [Serializable]
-    public class Sound
-    {
-        [SerializeField] private string _name;
-        [SerializeField] private AudioClip _clip;
-
-        public string Name => _name;
-        public AudioClip Clip => _clip;
     }
 }

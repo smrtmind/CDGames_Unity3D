@@ -10,37 +10,31 @@ namespace Unavinar.Installers
 {
     public class BaseInstaller : MonoInstaller
     {
-        [SerializeField] private Player _player;
-        [SerializeField] private MatchManager _gameManager;
+        [SerializeField] private GameManager _gameManager;
+        [SerializeField] private MatchManager _matchManager;
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private ObjectPool _objectPool;
         [SerializeField] private CameraController _cameraController;
+        [SerializeField] private Player _player;
         [SerializeField] private BoardControlSlider _boardControlSlider;
 
         public override void InstallBindings()
         {
-            InstallPlayerController();
-            InstallGameSession();
-            InstallAudioManager();
+            InstallManagers();
             InstallObjectPool();
             InstallCameraController();
+            InstallPlayer();
             InstallBoardControlSlider();
         }
 
-        private void InstallPlayerController()
+        private void InstallManagers()
         {
-            Container.Bind<Player>().FromInstance(_player).AsSingle().NonLazy();
-            Container.QueueForInject(_player);
-        }
-
-        private void InstallGameSession()
-        {
-            Container.Bind<MatchManager>().FromInstance(_gameManager).AsSingle().NonLazy();
+            Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle().NonLazy();
             Container.QueueForInject(_gameManager);
-        }
 
-        private void InstallAudioManager()
-        {
+            Container.Bind<MatchManager>().FromInstance(_matchManager).AsSingle().NonLazy();
+            Container.QueueForInject(_matchManager);
+
             Container.Bind<AudioManager>().FromInstance(_audioManager).AsSingle().NonLazy();
             Container.QueueForInject(_audioManager);
         }
@@ -55,6 +49,12 @@ namespace Unavinar.Installers
         {
             Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle().NonLazy();
             Container.QueueForInject(_cameraController);
+        }
+
+        private void InstallPlayer()
+        {
+            Container.Bind<Player>().FromInstance(_player).AsSingle().NonLazy();
+            Container.QueueForInject(_player);
         }
 
         private void InstallBoardControlSlider()

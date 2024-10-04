@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7060621231579910964}
   - component: {fileID: 558284155746995884}
-  - component: {fileID: 5770450055491012485}
+  - component: {fileID: 7335604087122601283}
   - component: {fileID: 7749777686877695052}
   m_Layer: 10
   m_Name: Coin
@@ -56,7 +56,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5770450055491012485
+--- !u!114 &7335604087122601283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1269142621857234670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b7a9224eb77a5c469fdb40559749c39, type: 3}
+  m_Script: {fileID: 11500000, guid: 609e7b76f140aef4fb933c0ede4fa4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 0
@@ -82,8 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542acb9e6db74034b97dab7570de9c47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isRotating: 1
-  _rotationAngle: {x: 0, y: 0, z: 10}
+  _rotationAngle: {x: 0, y: 10, z: 0}
   _rotationSpeed: 20
 --- !u!1 &8393362936904177402
 GameObject:
@@ -111,7 +110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8393362936904177402}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.08, z: 1}
   m_ConstrainProportionsScale: 0

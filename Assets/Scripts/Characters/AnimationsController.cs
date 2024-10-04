@@ -17,8 +17,6 @@ namespace Scripts.Characters
 
         public void Lose() => _animator.SetTrigger(LoseKey);
 
-        public void StartFall() => _animator.SetBool(FallKey, true);
-
-        public void EndFall() => _animator.SetBool(FallKey, false);
+        public void Fall() => _animator.SetTrigger(FallKey);
     }
 }

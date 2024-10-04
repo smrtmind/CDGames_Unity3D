@@ -9,8 +9,7 @@ namespace Scripts.UI
     {
         [SerializeField] private UiElement _startScreen;
         [SerializeField] private UiElement _gameplayUi;
-        [SerializeField] private UiElement _victoryScreen;
-        [SerializeField] private UiElement _defeatScreen;
+        [SerializeField] private UiElement _resultScreen;
 
         private HashSet<UiElement> _allUiElements = new();
         private UiElement _currentElement;
@@ -38,7 +37,7 @@ namespace Scripts.UI
             {
                 case GameState.StartScreen:
                     _currentElement = _startScreen;
-                    _currentElement.Show();
+                    _currentElement.ShowInstantly();
                     break;
 
                 case GameState.Gameplay:
@@ -46,11 +45,8 @@ namespace Scripts.UI
                     break;
 
                 case GameState.Victory:
-                    SwitchElementTo(_victoryScreen);
-                    break;
-
                 case GameState.Defeat:
-                    SwitchElementTo(_defeatScreen);
+                    SwitchElementTo(_resultScreen);
                     break;
             }
         }
@@ -65,7 +61,7 @@ namespace Scripts.UI
         private void HideAllUiElements()
         {
             foreach (var uiElement in _allUiElements)
-                uiElement.Hide();
+                uiElement.HideInstantly();
         }
     }
 }

@@ -12,15 +12,30 @@ namespace Scripts.UI
 
         public void Show() => Fade(1f);
 
+        public void ShowInstantly()
+        {
+            _canvasGroup.alpha = 1f;
+            CheckRaycasts();
+        }
+
         public void Hide() => Fade(0f);
+
+        public void HideInstantly()
+        {
+            _canvasGroup.alpha = 0f;
+            CheckRaycasts();
+        }
 
         private void Fade(float endValue)
         {
             _fadeTween?.Kill();
             _fadeTween = _canvasGroup.DOFade(endValue, _fadeDuration)
                 .SetEase(Ease.Linear)
-                .SetLink(gameObject);
+                .SetLink(gameObject)
+                .OnComplete(CheckRaycasts);
         }
+
+        private void CheckRaycasts() => _canvasGroup.blocksRaycasts = _canvasGroup.alpha == 1f;
 
         private void OnDisable()
         {

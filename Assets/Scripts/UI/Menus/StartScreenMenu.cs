@@ -11,20 +11,27 @@ namespace Scripts.UI.Menus
         [SerializeField] private Button _exitButton;
 
         private AudioManager _audioManager;
+        private GameManager _gameManager;
 
         [Inject]
-        private void Construct(AudioManager audioManager)
+        private void Construct(AudioManager audioManager, GameManager gameManager)
         {
             _audioManager = audioManager;
+            _gameManager = gameManager;
         }
 
         private void OnEnable()
+        {
+            Subscribe();
+        }
+
+        private void Subscribe()
         {
             _startButton.onClick.AddListener(StartGame);
             _exitButton.onClick.AddListener(ExitGame);
         }
 
-        private void OnDisable()
+        private void Unsubscribe()
         {
             _startButton.onClick.RemoveListener(StartGame);
             _exitButton.onClick.RemoveListener(ExitGame);
@@ -32,10 +39,15 @@ namespace Scripts.UI.Menus
 
         private void StartGame()
         {
-            GameManager.Instance.ChangeState(GameState.Gameplay);
+            _gameManager.ChangeState(GameState.Gameplay);
             _audioManager.PlaySfx("button");
         }
 
         private void ExitGame() => Application.Quit();
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+        }
     }
 }

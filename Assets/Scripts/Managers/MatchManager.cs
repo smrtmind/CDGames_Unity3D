@@ -8,33 +8,81 @@ namespace Scripts.Managers
 {
     public class MatchManager : MonoBehaviour
     {
-
         [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
         [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
+        [SerializeField, Min(0f)] private float _delayOnLevelComplete = 2f;
 
         public static Action OnMatchStarted;
         public static Action OnMatchEnded;
-
         public static Action<int> OnCoinsAmountChanged;
         public static Action<int> OnBoardsAmountChanged;
 
-        private int _coins;
-
-        public bool MatchIsStarted { get; private set; }
+        public int Coins { get; private set; }
         public int Boards { get; private set; }
+        public bool IsStarted { get; private set; }
 
-        private Player _player;
+        private AudioManager _audioManager;
+        private GameManager _gameManager;
 
         [Inject]
-        private void Construct(Player player)
+        private void Construct(AudioManager audioManager, GameManager gameManager)
         {
-            _player = player;
+            _audioManager = audioManager;
+            _gameManager = gameManager;
         }
+
+        private void OnEnable()
+        {
+            Subscribe();
+
+            IsStarted = false;
+            Coins = 0;
+        }
+
+        private void Subscribe()
+        {
+            GameManager.OnAfterStateChanged += OnAfterStateChanged;
+            Player.OnPlayerLost += OnPlayerLost;
+        }
+
+        private void Unsubscribe()
+        {
+            GameManager.OnAfterStateChanged -= OnAfterStateChanged;
+            Player.OnPlayerLost -= OnPlayerLost;
+        }
+
+        private void OnAfterStateChanged(GameState state)
+        {
+            switch (state)
+            {
+                case GameState.StartScreen:
+                    _audioManager.SetMusicTrack("startScreen");
+                    break;
+
+                case GameState.Gameplay:
+                    _audioManager.SetMusicTrack("gameplay");
+
+                    this.WaitForSeconds(TimerOnstart, () =>
+                    {
+                        IsStarted = true;
+                        OnMatchStarted?.Invoke();
+                    });
+                    break;
+            }
+        }
+
+        private void OnPlayerLost() => EndMatchWithDelay(win: false);
 
         public void AddCoins(int value)
         {
-            _coins += value;
-            OnCoinsAmountChanged?.Invoke(_coins);
+            Coins += value;
+            OnCoinsAmountChanged?.Invoke(Coins);
+
+            if (Coins >= CoinsToWin)
+            {
+                EndMatchWithDelay(win: true);
+                OnMatchEnded?.Invoke();
+            }
         }
 
         public void AddBoards(int value)
@@ -49,48 +97,17 @@ namespace Scripts.Managers
             OnBoardsAmountChanged?.Invoke(Boards);
         }
 
-        private void OnEnable()
+        private void EndMatchWithDelay(bool win)
         {
-            this.WaitForSeconds(TimerOnstart, () =>
-            {
-                MatchIsStarted = true;
-                OnMatchStarted?.Invoke();
-            });
+            IsStarted = false;
+
+            var state = win ? GameState.Victory : GameState.Defeat;
+            this.WaitForSeconds(_delayOnLevelComplete, () => _gameManager.ChangeState(state));
         }
 
-        private void Update()
+        private void OnDisable()
         {
-            //if (!_gameIsStarted)
-            //{
-            //    if (_onStartDelay > 0)
-            //    {
-            //        _onStartDelay -= Time.deltaTime;
-            //    }
-            //    else
-            //    {
-            //        _onStartDelay = 0;
-
-            //        OnMatchStarted?.Invoke();
-            //        _gameIsStarted = true;
-            //    }
-            //}
-
-            if (_player.IsDead || _player.gameObject.transform.position.y < -15f)
-                StopGame();
-
-            if (_coins == CoinsToWin)
-            {
-                //StopGame(win: true);
-                //_player.IsWin = true;
-            }
-        }
-
-        public void StopGame()
-        {
-            //_gameOverLayout.SetActive(true);
-
-            //_followCamera.enabled = false;
-            //_boardSlider.gameObject.SetActive(false);
+            Unsubscribe();
         }
     }
 }

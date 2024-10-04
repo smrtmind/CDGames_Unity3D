@@ -10,31 +10,51 @@ namespace Scripts.UI
 {
     public class GameplayUi : MonoBehaviour
     {
-        [SerializeField] private Slider _coinsBar;
+        [SerializeField] private Slider _progressBar;
         [SerializeField] private TMP_Text _timer;
+        [SerializeField] private TMP_Text _counter;
         [SerializeField] private GameObject _tutorialHint;
 
-        private MatchManager _gameSession;
+        [Space]
+        [SerializeField] private Color _timerStartColor;
+        [SerializeField] private Color _timerEndColor;
+
+        private MatchManager _matchManager;
         private Coroutine _timerRoutine;
 
         [Inject]
-        private void Construct(MatchManager gameSession)
+        private void Construct(MatchManager matchManager)
         {
-            _gameSession = gameSession;
+            _matchManager = matchManager;
         }
 
         private void OnEnable()
         {
-            MatchManager.OnMatchStarted += OnMatchStarted;
-
+            Subscribe();
             InitCoinsBar();
+            RefreshCoinsCounter();
         }
 
-        private void OnDisable()
+        private void Subscribe()
         {
-            MatchManager.OnMatchStarted -= OnMatchStarted;
+            GameManager.OnAfterStateChanged += OnAfterStateChanged;
+            MatchManager.OnMatchStarted += OnMatchStarted;
+            MatchManager.OnCoinsAmountChanged += OnCoinsAmountChanged;
+        }
 
-            this.StopCoroutine(ref _timerRoutine);
+        private void Unsubscribe()
+        {
+            GameManager.OnAfterStateChanged -= OnAfterStateChanged;
+            MatchManager.OnMatchStarted -= OnMatchStarted;
+            MatchManager.OnCoinsAmountChanged -= OnCoinsAmountChanged;
+        }
+
+        private void OnAfterStateChanged(GameState state)
+        {
+            if (state != GameState.Gameplay) return;
+
+            if (_timerRoutine == null)
+                _timerRoutine = StartCoroutine(Timer());
         }
 
         private void OnMatchStarted()
@@ -43,34 +63,44 @@ namespace Scripts.UI
             _tutorialHint.SetActive(false);
         }
 
-        private void Start()
+        private void OnCoinsAmountChanged(int coins)
         {
-            if (_timerRoutine == null)
-                _timerRoutine = StartCoroutine(Timer());
+            _progressBar.value = coins;
+            RefreshCoinsCounter();
         }
 
         private IEnumerator Timer()
         {
-            var timer = _gameSession.TimerOnstart;
+            var timer = _matchManager.TimerOnstart;
 
-            while (timer > 0)
+            while (timer > 0f)
             {
-                _timer.text = $"{Mathf.RoundToInt(timer)}";
+                var roundedTimer = Mathf.RoundToInt(timer);
+                var actualText = roundedTimer >= 1f ? $"{roundedTimer}" : "GO";
+                var actualColor = roundedTimer >= 1f ? _timerStartColor : _timerEndColor;
+
+                _timer.text = actualText;
+                _timer.color = actualColor;
+
                 yield return timer -= Time.deltaTime;
             }
-
-            _timer.color = Color.green;
-            _timer.text = "GO";
 
             _timerRoutine = null;
         }
 
         private void InitCoinsBar()
         {
-            _coinsBar.maxValue = _gameSession.CoinsToWin;
-            _coinsBar.value = 0f;
+            _progressBar.maxValue = _matchManager.CoinsToWin;
+            _progressBar.value = 0f;
         }
 
-        private void RefreshCoinsBar(int coins) => _coinsBar.value = coins;
+        private void RefreshCoinsCounter() => _counter.text = $"<color=yellow>{_matchManager.Coins}</color>/{_matchManager.CoinsToWin}";
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+
+            this.StopCoroutine(ref _timerRoutine);
+        }
     }
 }

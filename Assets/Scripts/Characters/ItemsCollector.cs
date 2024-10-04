@@ -11,32 +11,32 @@ namespace Scripts.Characters
         [SerializeField] private LayerMask _target;
 
         private AudioManager _audioManager;
-        private MatchManager _gameSession;
+        private MatchManager _matchManager;
 
         [Inject]
-        private void Construct(AudioManager audioManager, MatchManager gameSession)
+        private void Construct(AudioManager audioManager, MatchManager matchManager)
         {
             _audioManager = audioManager;
-            _gameSession = gameSession;
+            _matchManager = matchManager;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if ((_target & (1 << other.gameObject.layer)) != 0)
             {
-                other.TryGetComponent(out CollectableComponent item);
+                other.TryGetComponent(out CollectableItem item);
                 if (item != null)
                 {
                     switch (item.Type)
                     {
                         case CollectableItemType.Coin:
                             _audioManager.PlaySfx("coin");
-                            _gameSession.AddCoins(item.Value);
+                            _matchManager.AddCoins(item.Value);
                             break;
 
                         case CollectableItemType.Board:
                             _audioManager.PlaySfx("board");
-                            _gameSession.AddBoards(item.Value);
+                            _matchManager.AddBoards(item.Value);
                             break;
                     }
 

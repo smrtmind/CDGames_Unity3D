@@ -65,11 +65,6 @@ namespace Scripts.Characters
                 OnPlayerLost?.Invoke();
                 Destroy(gameObject);
             }
-
-            if (IsGrounded())
-                _animationsController.Run();
-            else
-                _animationsController.Fall();
         }
 
         private bool IsGrounded()

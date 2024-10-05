@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Scripts.Managers;
+using Scripts.Spawners;
 using System;
 using UnityEngine;
 using Zenject;
@@ -9,7 +10,12 @@ namespace Scripts.Objects
 {
     public class Section : MonoBehaviour, IPoolable
     {
+        #region Variables
+        [Header("Components")]
         [SerializeField] private BoxCollider _collider;
+        [SerializeField] private Transform _spawnPoint;
+
+        [Header("Parameters")]
         [SerializeField] private float _movingSpeed = 0.1f;
         [SerializeField, Min(0.1f)] private float _verticalSpeed = 0.25f;
         [SerializeField] private float _distanceToReleaseByZ = -10f;
@@ -22,6 +28,7 @@ namespace Scripts.Objects
         private MatchManager _matchManager;
         private GameManager _gameManager;
         private Tween _moveTween;
+        #endregion
 
         [Inject]
         private void Construct(MatchManager matchManager, GameManager gameManager)
@@ -33,6 +40,9 @@ namespace Scripts.Objects
         private void OnEnable()
         {
             VerticalMove();
+
+            if (_matchManager.IsStarted)
+                GenerateRandomItem();
         }
 
         private void Update()
@@ -53,6 +63,16 @@ namespace Scripts.Objects
             _moveTween = transform.DOMoveY(0f, _verticalSpeed)
                 .SetEase(Ease.OutBack)
                 .SetLink(gameObject);
+        }
+
+        private void GenerateRandomItem()
+        {
+            var item = ItemsSpawner.OnItemRequested.Invoke();
+            if (item != null)
+            {
+                item.transform.SetParent(_spawnPoint);
+                item.transform.position = _spawnPoint.transform.position;
+            }
         }
 
         public void Release() => Destroyed?.Invoke(this);

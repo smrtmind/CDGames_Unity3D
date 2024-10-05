@@ -108,11 +108,14 @@ namespace Scripts.Spawners
             }
 
             _platformsWithoutPillarCounter++;
-            var currentSectionType = _platformsWithoutPillarCounter < _spawnPillarSkipCounter ? _sectionsStorage.GetSection() : _sectionsStorage.GetSectionWithPillar();
-            var section = _objectPool.Get(currentSectionType);
+            var currentSectionType = _platformsWithoutPillarCounter < _spawnPillarSkipCounter ? 
+                _sectionsStorage.GetSection() : 
+                _sectionsStorage.GetSectionWithPillar();
 
             if (_platformsWithoutPillarCounter >= _spawnPillarSkipCounter)
                 _platformsWithoutPillarCounter = 0;
+
+            var section = _objectPool.Get(currentSectionType);
 
             float newPositionZ = (_lastSpawnedSection != null)
                 ? _lastSpawnedSection.transform.position.z + _sectionsStorage.GetSectionLengthByZ()

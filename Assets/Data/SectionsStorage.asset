@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9f684e7d53cb147aa9d372d0055212, type: 3}
   m_Name: SectionsStorage
   m_EditorClassIdentifier: 
-  _sections:
-  - {fileID: -7768837801809460143, guid: 48987899d9552bc4ebef76d81786996c, type: 3}
+  _section: {fileID: 4515967696473963055, guid: ec97cdd7d6fbfeb4fb56a184f512ba39, type: 3}
+  _sectionWithPillar: {fileID: 6614556717542712832, guid: 94fcceb2b8f26274fa529548b624d2a5, type: 3}

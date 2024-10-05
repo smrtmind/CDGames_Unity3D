@@ -29,18 +29,18 @@ namespace Scripts.Characters
                 {
                     switch (item.Type)
                     {
-                        case CollectableItemType.Coin:
+                        case ItemType.Coin:
                             _audioManager.PlaySfx("coin");
                             _matchManager.AddCoins(item.Value);
                             break;
 
-                        case CollectableItemType.Board:
+                        case ItemType.Board:
                             _audioManager.PlaySfx("board");
                             _matchManager.AddBoards(item.Value);
                             break;
                     }
 
-                    Destroy(item.gameObject);
+                    item.Release();
                 }
             }
         }

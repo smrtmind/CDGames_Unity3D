@@ -2,10 +2,11 @@ namespace Scripts.Utils
 {
     public static class Enums
     {
-        public enum CollectableItemType
+        public enum ItemType
         {
             Coin,
-            Board
+            Board,
+            Obstacle
         }
     }
 }

@@ -4,6 +4,7 @@ using Scripts.Utils;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -16,6 +17,7 @@ namespace Scripts.UI
         [SerializeField] private Image _progressFiller;
         [SerializeField] private TMP_Text _countdown;
         [SerializeField] private TMP_Text _timer;
+        [SerializeField] private Button _returnButton;
         [SerializeField] private GameObject _tutorialHand;
 
         [Header("Parameters")]
@@ -51,6 +53,7 @@ namespace Scripts.UI
             MatchManager.OnMatchEnded += StopTimer;
             MatchManager.OnCoinsAmountChanged += OnCoinsAmountChanged;
             Player.OnPlayerLost += StopTimer;
+            _returnButton.onClick.AddListener(ReturnToMenu);
         }
 
         private void Unsubscribe()
@@ -60,6 +63,7 @@ namespace Scripts.UI
             MatchManager.OnMatchEnded -= StopTimer;
             MatchManager.OnCoinsAmountChanged -= OnCoinsAmountChanged;
             Player.OnPlayerLost -= StopTimer;
+            _returnButton.onClick.RemoveListener(ReturnToMenu);
         }
 
         private void OnAfterStateChanged(GameState state)
@@ -127,6 +131,12 @@ namespace Scripts.UI
             _progressStep = 1f / _matchManager.CoinsToWin;
 
             _timer.gameObject.SetActive(false);
+        }
+
+        private void ReturnToMenu()
+        {
+            var currentScene = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentScene);
         }
 
         private void OnDisable()

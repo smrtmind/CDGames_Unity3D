@@ -22,7 +22,7 @@ namespace Scripts.Objects
         public event Action<IPoolable> Destroyed;
 
         public GameObject GameObject => gameObject;
-        public float SizeZ => _collider.size.z;
+        public Vector3 Size => _collider.size;
 
         private Item _currentItem;
         private MatchManager _matchManager;

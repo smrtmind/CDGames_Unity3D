@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 7780551660217760225}
   - component: {fileID: 3141396289166549797}
   m_Layer: 5
-  m_Name: ReplayButton
+  m_Name: ReturnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -388,7 +388,7 @@ GameObject:
   - component: {fileID: 7317264481974859499}
   - component: {fileID: 7438037390787032123}
   m_Layer: 5
-  m_Name: Text_Replay
+  m_Name: Text_Return
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Replay
+  m_text: Return
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
   m_sharedMaterial: {fileID: 6821236961811552098, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 00:00
+  m_text: 'Time: 00:00'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
   m_sharedMaterial: {fileID: 6821236961811552098, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba418d5e8e707447b57cfff02050589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _replayButton: {fileID: 3141396289166549797}
+  _returnButton: {fileID: 3141396289166549797}
   _exitButton: {fileID: 7813741453991336683}
   _title: {fileID: 904404033172987143}
   _timer: {fileID: 8547075042810865883}

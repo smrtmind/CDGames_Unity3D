@@ -15,8 +15,9 @@ namespace Scripts.Spawners
     public class SectionsSpawner : MonoBehaviour
     {
         #region Variables
-        [Header("Storages")]
-        [SerializeField] private SectionsStorage _sectionsStorage;
+        [Header("Components")]
+        [SerializeField] private Section _section;
+        [SerializeField] private Section _sectionWithPillar;
 
         [Header("Parameters")]
         [SerializeField] private float _spawnHeight = 10f;
@@ -118,17 +119,15 @@ namespace Scripts.Spawners
             }
 
             _platformsWithoutPillarCounter++;
-            var currentSectionType = _platformsWithoutPillarCounter < _spawnPillarSkipCounter ? 
-                _sectionsStorage.GetSection() : 
-                _sectionsStorage.GetSectionWithPillar();
+            var currentSection = _platformsWithoutPillarCounter < _spawnPillarSkipCounter ? _section : _sectionWithPillar;
 
             if (_platformsWithoutPillarCounter >= _spawnPillarSkipCounter)
                 _platformsWithoutPillarCounter = 0;
 
-            var section = _objectPool.Get(currentSectionType);
+            var section = _objectPool.Get(currentSection);
 
             float newPositionZ = (_lastSpawnedSection != null)
-                ? _lastSpawnedSection.transform.position.z + _sectionsStorage.GetSectionLengthByZ()
+                ? _lastSpawnedSection.transform.position.z + currentSection.Size.z
                 : 0f;
 
             section.transform.position = new Vector3(0f, Random.value > 0.5f ? _spawnHeight : -_spawnHeight, newPositionZ);
@@ -145,7 +144,7 @@ namespace Scripts.Spawners
         {
             if (_lastSpawnedSection != null)
             {
-                float skipDistance = _sectionsStorage.GetSectionLengthByZ() * skipCount;
+                float skipDistance = _lastSpawnedSection.Size.z * skipCount;
                 float newPositionZ = _lastSpawnedSection.transform.position.z + skipDistance;
 
                 _lastSpawnedSection.transform.position = new Vector3(
@@ -159,7 +158,7 @@ namespace Scripts.Spawners
 
         private void SpawnFirstSection()
         {
-            _lastSpawnedSection = _objectPool.Get(_sectionsStorage.GetSectionWithPillar());
+            _lastSpawnedSection = _objectPool.Get(_sectionWithPillar);
             _lastSpawnedSection.transform.position = Vector3.zero;
         }
 

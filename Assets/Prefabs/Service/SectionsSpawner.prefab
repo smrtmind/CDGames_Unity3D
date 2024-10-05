@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049c709a0a2bfa149bc77ad686023a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sectionsStorage: {fileID: 11400000, guid: b0e9a4283e2d0874d93aba4d3336a39f, type: 2}
+  _section: {fileID: 4515967696473963055, guid: ec97cdd7d6fbfeb4fb56a184f512ba39, type: 3}
+  _sectionWithPillar: {fileID: 6614556717542712832, guid: 94fcceb2b8f26274fa529548b624d2a5, type: 3}
   _spawnHeight: 35
   _distanceAheadOfPlayer: 47
   _spawnPillarSkipCounter: 5

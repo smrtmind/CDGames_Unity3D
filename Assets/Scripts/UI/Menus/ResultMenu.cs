@@ -9,7 +9,7 @@ namespace Scripts.UI.Menus
 {
     public class ResultMenu : MonoBehaviour
     {
-        [SerializeField] private Button _replayButton;
+        [SerializeField] private Button _returnButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _timer;
@@ -30,14 +30,14 @@ namespace Scripts.UI.Menus
         private void Subscribe()
         {
             GameManager.OnAfterStateChanged += OnAfterStateChanged;
-            _replayButton.onClick.AddListener(ReplayGame);
+            _returnButton.onClick.AddListener(ReturnToMenu);
             _exitButton.onClick.AddListener(ExitGame);
         }
 
         private void Unsubscribe()
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
-            _replayButton.onClick.RemoveListener(ReplayGame);
+            _returnButton.onClick.RemoveListener(ReturnToMenu);
             _exitButton.onClick.RemoveListener(ExitGame);
         }
 
@@ -48,11 +48,11 @@ namespace Scripts.UI.Menus
                 _title.text = state == GameState.Victory ? "Victory" : "Defeat";
                 _title.color = state == GameState.Victory ? Color.green : Color.red;
 
-                _timer.text = _gameplayUi.FormattedTimer;
+                _timer.text = $"Time: {_gameplayUi.FormattedTimer}";
             }
         }
 
-        private void ReplayGame()
+        private void ReturnToMenu()
         {
             var currentScene = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentScene);

@@ -2,11 +2,13 @@ using Scripts.Characters;
 using Scripts.Managers;
 using Scripts.Objects;
 using Scripts.Pooling;
+using Scripts.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
-using Scripts.Utils;
+using Random = UnityEngine.Random;
 
 namespace Scripts.Spawners
 {
@@ -28,6 +30,8 @@ namespace Scripts.Spawners
         [Space]
         [SerializeField, Min(1)] private int _skipCountMin = 1;
         [SerializeField, Min(2)] private int _skipCountMax = 10;
+
+        public static Action<Section> OnSectionSpawned;
 
         private HashSet<Section> _activeSections = new();
         private ObjectPool _objectPool;
@@ -135,6 +139,8 @@ namespace Scripts.Spawners
 
             _lastSpawnedSection = section;
             _platformSpawnedCount++;
+
+            OnSectionSpawned?.Invoke(_lastSpawnedSection);
         }
 
         private void SkipSections(int skipCount)

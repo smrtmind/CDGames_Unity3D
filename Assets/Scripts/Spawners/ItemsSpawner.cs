@@ -1,6 +1,6 @@
+using Scripts.Managers;
 using Scripts.Objects;
 using Scripts.Pooling;
-using System;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -11,30 +11,37 @@ namespace Scripts.Spawners
     {
         [SerializeField] private ItemData[] _itemDatas;
 
-        public static Func<Item> OnItemRequested;
-
         private ObjectPool _objectPool;
+        private MatchManager _matchManager;
 
         [Inject]
-        private void Construct(ObjectPool objectPool)
+        private void Construct(ObjectPool objectPool, MatchManager matchManager)
         {
             _objectPool = objectPool;
+            _matchManager = matchManager;
         }
 
         private void OnEnable()
         {
-            OnItemRequested += SpawnRandomItem;
+            SectionsSpawner.OnSectionSpawned += SpawnRandomItem;
         }
 
         private void OnDisable()
         {
-            OnItemRequested -= SpawnRandomItem;
+            SectionsSpawner.OnSectionSpawned -= SpawnRandomItem;
         }
 
-        private Item SpawnRandomItem()
+        private void SpawnRandomItem(Section section)
         {
-            var item = GenerateRandomItemPrefab();
-            return item != null ? _objectPool.Get(item) : null;
+            if (!_matchManager.IsStarted) return;
+
+            var itemPrefab = GenerateRandomItemPrefab();
+            if (itemPrefab != null)
+            {
+                var item = _objectPool.Get(itemPrefab);
+                item.transform.SetParent(section.SpawnPoint);
+                item.transform.position = section.SpawnPoint.position;
+            }
         }
 
         private Item GenerateRandomItemPrefab()

@@ -1,6 +1,5 @@
 using DG.Tweening;
 using Scripts.Managers;
-using Scripts.Spawners;
 using System;
 using UnityEngine;
 using Zenject;
@@ -13,7 +12,7 @@ namespace Scripts.Objects
         #region Variables
         [Header("Components")]
         [SerializeField] private BoxCollider _collider;
-        [SerializeField] private Transform _spawnPoint;
+        [field: SerializeField] public Transform SpawnPoint { get; private set; }
 
         [Header("Parameters")]
         [SerializeField] private float _movingSpeed = 0.1f;
@@ -42,9 +41,6 @@ namespace Scripts.Objects
         {
             VerticalMove();
             Rotate();
-
-            if (_matchManager.IsStarted)
-                GenerateRandomItem();
         }
 
         private void Update()
@@ -74,16 +70,6 @@ namespace Scripts.Objects
             _rotateTween?.Kill();
             _rotateTween = transform.DORotate(new Vector3(0f, 360f, 0f), _verticalSpeed, RotateMode.FastBeyond360)
                 .SetLink(gameObject);
-        }
-
-        private void GenerateRandomItem()
-        {
-            var item = ItemsSpawner.OnItemRequested.Invoke();
-            if (item != null)
-            {
-                item.transform.SetParent(_spawnPoint);
-                item.transform.position = _spawnPoint.transform.position;
-            }
         }
 
         public void Release() => Destroyed?.Invoke(this);

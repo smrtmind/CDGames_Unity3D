@@ -41,9 +41,17 @@ namespace Scripts.UI.Menus
         {
             _gameManager.ChangeState(GameState.Gameplay);
             _audioManager.PlaySfx("button");
+
+            DisableButtonsAvailability();
         }
 
         private void ExitGame() => Application.Quit();
+
+        private void DisableButtonsAvailability()
+        {
+            _startButton.image.raycastTarget = false;
+            _exitButton.image.raycastTarget = false;
+        }
 
         private void OnDisable()
         {

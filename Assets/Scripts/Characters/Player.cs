@@ -7,11 +7,13 @@ namespace Scripts.Characters
 {
     public class Player : MonoBehaviour
     {
+        #region Variables
+        [Header("Components")]
         [SerializeField] private AnimationsController _animationsController;
         [SerializeField] private Rigidbody _rigidBody;
         [SerializeField] private Collider _collider;
 
-        [Space]
+        [Header("Parameters")]
         [SerializeField] private LayerMask _targetGround;
         [SerializeField, Min(0.5f)] private float _raycastLength = 2f;
         [SerializeField] private float _losePositionByY = -15f;
@@ -22,6 +24,7 @@ namespace Scripts.Characters
         public bool IsDead { get; private set; }
 
         private AudioManager _audioManager;
+        #endregion
 
         [Inject]
         private void Construct(AudioManager audioManager)
@@ -84,8 +87,9 @@ namespace Scripts.Characters
         public void Die()
         {
             IsDead = true;
+            _rigidBody.velocity = Vector3.zero;
 
-            _animationsController.Lose();
+            _animationsController.EnableRagdoll();
             _audioManager.PlaySfx("hit");
 
             OnPlayerLost?.Invoke();

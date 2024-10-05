@@ -9,7 +9,11 @@ namespace Scripts.Spawners
 {
     public class BoardsSpawner : MonoBehaviour
     {
+        #region Variables
+        [Header("Components")]
         [SerializeField] private Board _board;
+
+        [Header("Parameters")]
         [SerializeField] private float _spawnDelay;
         [SerializeField] private float _rotateMultiplier;
         [SerializeField] private float _smoothPower;
@@ -22,6 +26,7 @@ namespace Scripts.Spawners
         private float _nextBoardPosition;
         private float _nextBoardRotation;
         private bool _canSpawn;
+        #endregion
 
         [Inject]
         private void Construct(ObjectPool objectPool, MatchManager matchManager, BoardControlSlider boardControlSlider)

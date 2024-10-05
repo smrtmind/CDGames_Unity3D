@@ -8,6 +8,8 @@ namespace Scripts.Managers
 {
     public class MatchManager : MonoBehaviour
     {
+        #region Variables
+        [field: Header("Parameters")]
         [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
         [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
         [SerializeField, Min(0f)] private float _delayOnLevelComplete = 2f;
@@ -24,6 +26,7 @@ namespace Scripts.Managers
 
         private AudioManager _audioManager;
         private GameManager _gameManager;
+        #endregion
 
         [Inject]
         private void Construct(AudioManager audioManager, GameManager gameManager)

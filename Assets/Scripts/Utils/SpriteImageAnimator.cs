@@ -5,16 +5,19 @@ namespace Scripts.Utils
 {
     public class SpriteImageAnimator : MonoBehaviour
     {
+        #region Variables
+        [Header("Components")]
         [SerializeField] private Image _image;
         [SerializeField] private Sprite[] _sprites;
 
-        [Space]
+        [Header("Parameters")]
         [SerializeField] private bool _loop;
         [SerializeField][Range(1, 60)] private int _frameRate = 10;
 
         private float _secondsPerFrame;
         private float _nextFrameTime;
         private int _currentFrame;
+        #endregion
 
         private void OnEnable()
         {

@@ -37,11 +37,7 @@ namespace Scripts.Spawners
 
             var itemPrefab = GenerateRandomItemPrefab();
             if (itemPrefab != null)
-            {
-                var item = _objectPool.Get(itemPrefab);
-                item.transform.SetParent(section.SpawnPoint);
-                item.transform.position = section.SpawnPoint.position;
-            }
+                section.SetCurrentItem(_objectPool.Get(itemPrefab));
         }
 
         private Item GenerateRandomItemPrefab()

@@ -87,6 +87,8 @@ namespace Scripts.Managers
 
             if (Coins >= CoinsToWin)
             {
+                Coins = CoinsToWin;
+
                 EndMatchWithDelay(win: true);
                 OnMatchEnded?.Invoke();
             }

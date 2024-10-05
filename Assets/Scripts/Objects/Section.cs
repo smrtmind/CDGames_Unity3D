@@ -12,7 +12,7 @@ namespace Scripts.Objects
         #region Variables
         [Header("Components")]
         [SerializeField] private BoxCollider _collider;
-        [field: SerializeField] public Transform SpawnPoint { get; private set; }
+        [SerializeField] private Transform _spawnPoint;
 
         [Header("Parameters")]
         [SerializeField] private float _movingSpeed = 0.1f;
@@ -24,6 +24,7 @@ namespace Scripts.Objects
         public GameObject GameObject => gameObject;
         public float SizeZ => _collider.size.z;
 
+        private Item _currentItem;
         private MatchManager _matchManager;
         private GameManager _gameManager;
         private Tween _moveTween;
@@ -74,10 +75,24 @@ namespace Scripts.Objects
 
         public void Release() => Destroyed?.Invoke(this);
 
+        public void SetCurrentItem(Item item)
+        {
+            _currentItem = item;
+
+            _currentItem.transform.SetParent(_spawnPoint);
+            _currentItem.transform.position = _spawnPoint.position;
+        }
+
         private void OnDisable()
         {
             _moveTween?.Kill();
             _rotateTween?.Kill();
+
+            if (_currentItem != null)
+            {
+                _currentItem.Release();
+                _currentItem = null;
+            }
         }
     }
 }

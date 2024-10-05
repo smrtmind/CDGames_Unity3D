@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 8257203868544838821}
-  <SpawnPoint>k__BackingField: {fileID: 6248407573154013238}
+  _spawnPoint: {fileID: 6248407573154013238}
   _movingSpeed: -0.3
   _verticalSpeed: 1
   _distanceToReleaseByZ: -10

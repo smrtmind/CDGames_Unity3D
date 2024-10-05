@@ -55,12 +55,14 @@ namespace Scripts.Spawners
         private void Subscribe()
         {
             GameManager.OnAfterStateChanged += OnAfterStateChanged;
+            MatchManager.OnMatchEnded += StopSpawn;
             Player.OnPlayerLost += StopSpawn;
         }
 
         private void Unsubscribe()
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
+            MatchManager.OnMatchEnded -= StopSpawn;
             Player.OnPlayerLost -= StopSpawn;
         }
 
@@ -69,8 +71,7 @@ namespace Scripts.Spawners
             switch (state)
             {
                 case GameState.Gameplay:
-                    if (_spawnRoutine == null)
-                        _spawnRoutine = StartCoroutine(StartSpawn());
+                    StartSpawn();
                     break;
 
                 case GameState.Victory:
@@ -80,9 +81,16 @@ namespace Scripts.Spawners
             }
         }
 
-        private IEnumerator StartSpawn()
+        private void StartSpawn()
         {
-            SpawnNewSection(forceSpawn: true);
+            if (_spawnRoutine == null)
+                _spawnRoutine = StartCoroutine(SpawnLoop());
+        }
+
+        private IEnumerator SpawnLoop()
+        {
+            _lastSpawnedSection = _objectPool.Get(_sectionsStorage.GetSectionWithPillar());
+            _lastSpawnedSection.transform.position = Vector3.zero;
 
             while (true)
             {
@@ -99,9 +107,9 @@ namespace Scripts.Spawners
             return distanceToLastSection <= _distanceAheadOfPlayer;
         }
 
-        private void SpawnNewSection(bool forceSpawn = false)
+        private void SpawnNewSection()
         {
-            if (!forceSpawn && _platformSpawnedCount >= Random.Range(_platformsBeforeSkipMin, _platformsBeforeSkipMax))
+            if (_platformSpawnedCount >= Random.Range(_platformsBeforeSkipMin, _platformsBeforeSkipMax))
             {
                 SkipSections(Random.Range(_skipCountMin, _skipCountMax));
                 _platformSpawnedCount = 0;
@@ -122,7 +130,6 @@ namespace Scripts.Spawners
                 : 0f;
 
             section.transform.position = new Vector3(0f, Random.value > 0.5f ? _spawnHeight : -_spawnHeight, newPositionZ);
-            section.transform.rotation = Quaternion.identity;
 
             _activeSections.Add(section);
 

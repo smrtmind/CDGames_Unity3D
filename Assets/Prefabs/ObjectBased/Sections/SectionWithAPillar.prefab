@@ -56,7 +56,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 64672170989816414, guid: 101f679722cc4c546a9cb039c6c83e77, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 64672170989816414, guid: 101f679722cc4c546a9cb039c6c83e77, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -130,7 +135,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 64930016177866562, guid: 8b4141ff278aa944e95d5357a1b9ad86, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 64930016177866562, guid: 8b4141ff278aa944e95d5357a1b9ad86, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -150,7 +160,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8605440885912738822, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: m_Name
-      value: SectionWithAPillar32
+      value: SectionWithAPillar
       objectReference: {fileID: 0}
     - target: {fileID: 8605440885912738823, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: m_LocalPosition.x

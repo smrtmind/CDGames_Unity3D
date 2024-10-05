@@ -28,6 +28,7 @@ namespace Scripts.Objects
         private MatchManager _matchManager;
         private GameManager _gameManager;
         private Tween _moveTween;
+        private Tween _rotateTween;
         #endregion
 
         [Inject]
@@ -40,6 +41,7 @@ namespace Scripts.Objects
         private void OnEnable()
         {
             VerticalMove();
+            Rotate();
 
             if (_matchManager.IsStarted)
                 GenerateRandomItem();
@@ -65,6 +67,15 @@ namespace Scripts.Objects
                 .SetLink(gameObject);
         }
 
+        private void Rotate()
+        {
+            transform.rotation = Quaternion.identity;
+
+            _rotateTween?.Kill();
+            _rotateTween = transform.DORotate(new Vector3(0f, 360f, 0f), _verticalSpeed, RotateMode.FastBeyond360)
+                .SetLink(gameObject);
+        }
+
         private void GenerateRandomItem()
         {
             var item = ItemsSpawner.OnItemRequested.Invoke();
@@ -80,6 +91,7 @@ namespace Scripts.Objects
         private void OnDisable()
         {
             _moveTween?.Kill();
+            _rotateTween?.Kill();
         }
     }
 }

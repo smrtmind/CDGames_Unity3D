@@ -11,7 +11,8 @@ namespace Scripts.Characters
         {
             if ((_target & (1 << collision.gameObject.layer)) != 0)
             {
-                _player.Die();
+                if (!_player.IsDead)
+                    _player.Die();
             }
         }
     }

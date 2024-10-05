@@ -13,11 +13,10 @@ namespace Scripts.UI
     {
         #region Variables
         [Header("Components")]
-        [SerializeField] private Slider _progressBar;
+        [SerializeField] private Image _progressFiller;
         [SerializeField] private TMP_Text _countdown;
         [SerializeField] private TMP_Text _timer;
-        [SerializeField] private TMP_Text _counter;
-        [SerializeField] private GameObject _tutorialHint;
+        [SerializeField] private GameObject _tutorialHand;
 
         [Header("Parameters")]
         [SerializeField] private Color _timerStartColor;
@@ -29,6 +28,8 @@ namespace Scripts.UI
         private Coroutine _countdownRoutine;
         private Coroutine _timerRoutine;
         private WaitForEndOfFrame _waitForEndOfFrame = new();
+
+        private float _progressStep;
         #endregion
 
         [Inject]
@@ -40,8 +41,7 @@ namespace Scripts.UI
         private void OnEnable()
         {
             Subscribe();
-            InitCoinsBar();
-            RefreshCoinsCounter();
+            InitProgressBar();
         }
 
         private void Subscribe()
@@ -73,7 +73,7 @@ namespace Scripts.UI
         private void OnMatchStarted()
         {
             _countdown.gameObject.SetActive(false);
-            _tutorialHint.SetActive(false);
+            _tutorialHand.SetActive(false);
             _timer.gameObject.SetActive(true);
 
             if (_timerRoutine == null)
@@ -82,11 +82,7 @@ namespace Scripts.UI
 
         private void StopTimer() => this.StopCoroutine(ref _timerRoutine);
 
-        private void OnCoinsAmountChanged(int coins)
-        {
-            _progressBar.value = coins;
-            RefreshCoinsCounter();
-        }
+        private void OnCoinsAmountChanged(int coins) => _progressFiller.fillAmount = _progressStep * coins;
 
         private IEnumerator Countdown()
         {
@@ -125,15 +121,13 @@ namespace Scripts.UI
             }
         }
 
-        private void InitCoinsBar()
+        private void InitProgressBar()
         {
-            _progressBar.maxValue = _matchManager.CoinsToWin;
-            _progressBar.value = 0f;
+            _progressFiller.fillAmount = 0f;
+            _progressStep = 1f / _matchManager.CoinsToWin;
 
             _timer.gameObject.SetActive(false);
         }
-
-        private void RefreshCoinsCounter() => _counter.text = $"{_matchManager.Coins}/{_matchManager.CoinsToWin}";
 
         private void OnDisable()
         {

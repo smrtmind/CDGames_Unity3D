@@ -1002,6 +1002,7 @@ MonoBehaviour:
     m_Bits: 64
   _raycastLength: 2.25
   _losePositionByY: -15
+  _gravityMultiplier: -200
 --- !u!114 &1556109640892875996
 MonoBehaviour:
   m_ObjectHideFlags: 0

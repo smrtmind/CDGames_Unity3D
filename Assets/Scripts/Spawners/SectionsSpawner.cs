@@ -54,6 +54,7 @@ namespace Scripts.Spawners
         private void OnEnable()
         {
             Subscribe();
+            SpawnFirstSection();
         }
 
         private void Subscribe()
@@ -93,9 +94,6 @@ namespace Scripts.Spawners
 
         private IEnumerator SpawnLoop()
         {
-            _lastSpawnedSection = _objectPool.Get(_sectionsStorage.GetSectionWithPillar());
-            _lastSpawnedSection.transform.position = Vector3.zero;
-
             while (true)
             {
                 if (ShouldSpawnNewSection())
@@ -158,6 +156,12 @@ namespace Scripts.Spawners
         }
 
         private void StopSpawn() => this.StopCoroutine(ref _spawnRoutine);
+
+        private void SpawnFirstSection()
+        {
+            _lastSpawnedSection = _objectPool.Get(_sectionsStorage.GetSectionWithPillar());
+            _lastSpawnedSection.transform.position = Vector3.zero;
+        }
 
         private void ReleaseAllSections()
         {

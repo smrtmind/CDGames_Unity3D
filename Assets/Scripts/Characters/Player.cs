@@ -15,8 +15,11 @@ namespace Scripts.Characters
         [SerializeField] private LayerMask _targetGround;
         [SerializeField, Min(0.5f)] private float _raycastLength = 2f;
         [SerializeField] private float _losePositionByY = -15f;
+        [SerializeField] private float _gravityMultiplier;
 
         public static Action OnPlayerLost;
+
+        public bool IsDead { get; private set; }
 
         private AudioManager _audioManager;
 
@@ -65,6 +68,9 @@ namespace Scripts.Characters
                 OnPlayerLost?.Invoke();
                 Destroy(gameObject);
             }
+
+            if (!IsGrounded())
+                _rigidBody.AddForce(new Vector3(0f, _gravityMultiplier, 0f));
         }
 
         private bool IsGrounded()
@@ -77,11 +83,10 @@ namespace Scripts.Characters
 
         public void Die()
         {
+            IsDead = true;
+
             _animationsController.Lose();
             _audioManager.PlaySfx("hit");
-
-            _collider.enabled = false;
-            _rigidBody.useGravity = false;
 
             OnPlayerLost?.Invoke();
         }

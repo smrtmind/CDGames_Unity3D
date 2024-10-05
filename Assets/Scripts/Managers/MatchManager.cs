@@ -94,6 +94,9 @@ namespace Scripts.Managers
         public void RemoveBoard()
         {
             Boards--;
+            if (Boards <= 0)
+                Boards = 0;
+
             OnBoardsAmountChanged?.Invoke(Boards);
         }
 

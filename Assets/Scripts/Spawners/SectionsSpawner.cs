@@ -12,18 +12,22 @@ namespace Scripts.Spawners
 {
     public class SectionsSpawner : MonoBehaviour
     {
+        #region Variables
         [Header("Storages")]
         [SerializeField] private SectionsStorage _sectionsStorage;
 
         [Header("Parameters")]
         [SerializeField] private float _spawnHeight = 10f;
-
-        [Header("Gap Settings")]
-        [SerializeField, Min(1)] private int _platformsBeforeSkip = 3;
-        [SerializeField, Min(0)] private int _skipCount = 1;
-
-        [Header("Spawn Distance Settings")]
         [SerializeField, Min(0.1f)] private float _distanceAheadOfPlayer = 30f;
+        [SerializeField, Min(1)] private int _spawnPillarSkipCounter = 5;
+
+        [Space]
+        [SerializeField, Min(1)] private int _platformsBeforeSkipMin = 1;
+        [SerializeField, Min(2)] private int _platformsBeforeSkipMax = 10;
+
+        [Space]
+        [SerializeField, Min(1)] private int _skipCountMin = 1;
+        [SerializeField, Min(2)] private int _skipCountMax = 10;
 
         private HashSet<Section> _activeSections = new();
         private ObjectPool _objectPool;
@@ -33,6 +37,8 @@ namespace Scripts.Spawners
         private WaitForEndOfFrame _waitForEndOfFrame = new();
 
         private int _platformSpawnedCount = 0;
+        private int _platformsWithoutPillarCounter = 0;
+        #endregion
 
         [Inject]
         private void Construct(ObjectPool objectPool, Player player)
@@ -43,15 +49,19 @@ namespace Scripts.Spawners
 
         private void OnEnable()
         {
-            GameManager.OnAfterStateChanged += OnAfterStateChanged;
+            Subscribe();
         }
 
-        private void OnDisable()
+        private void Subscribe()
+        {
+            GameManager.OnAfterStateChanged += OnAfterStateChanged;
+            Player.OnPlayerLost += StopSpawn;
+        }
+
+        private void Unsubscribe()
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
-
-            StopSpawn();
-            ReleaseAllSections();
+            Player.OnPlayerLost -= StopSpawn;
         }
 
         private void OnAfterStateChanged(GameState state)
@@ -60,7 +70,7 @@ namespace Scripts.Spawners
             {
                 case GameState.Gameplay:
                     if (_spawnRoutine == null)
-                        _spawnRoutine = StartCoroutine(SpawnLoop());
+                        _spawnRoutine = StartCoroutine(StartSpawn());
                     break;
 
                 case GameState.Victory:
@@ -70,8 +80,10 @@ namespace Scripts.Spawners
             }
         }
 
-        private IEnumerator SpawnLoop()
+        private IEnumerator StartSpawn()
         {
+            SpawnNewSection(forceSpawn: true);
+
             while (true)
             {
                 if (ShouldSpawnNewSection())
@@ -83,29 +95,30 @@ namespace Scripts.Spawners
 
         private bool ShouldSpawnNewSection()
         {
-            if (_lastSpawnedSection == null)
-                return true;
-
             var distanceToLastSection = _lastSpawnedSection.transform.position.z - _player.transform.position.z;
-
             return distanceToLastSection <= _distanceAheadOfPlayer;
         }
 
-        private void SpawnNewSection()
+        private void SpawnNewSection(bool forceSpawn = false)
         {
-            if (_platformSpawnedCount >= _platformsBeforeSkip)
+            if (!forceSpawn && _platformSpawnedCount >= Random.Range(_platformsBeforeSkipMin, _platformsBeforeSkipMax))
             {
-                SkipSections(_skipCount);
+                SkipSections(Random.Range(_skipCountMin, _skipCountMax));
                 _platformSpawnedCount = 0;
             }
 
-            var section = _objectPool.Get(_sectionsStorage.GetRandomSectionPrefab());
+            _platformsWithoutPillarCounter++;
+            var currentSectionType = _platformsWithoutPillarCounter < _spawnPillarSkipCounter ? _sectionsStorage.GetSection() : _sectionsStorage.GetSectionWithPillar();
+            var section = _objectPool.Get(currentSectionType);
+
+            if (_platformsWithoutPillarCounter >= _spawnPillarSkipCounter)
+                _platformsWithoutPillarCounter = 0;
 
             float newPositionZ = (_lastSpawnedSection != null)
                 ? _lastSpawnedSection.transform.position.z + _sectionsStorage.GetSectionLengthByZ()
                 : 0f;
 
-            section.transform.position = new Vector3(0f, _spawnHeight, newPositionZ);
+            section.transform.position = new Vector3(0f, Random.value > 0.5f ? _spawnHeight : -_spawnHeight, newPositionZ);
             section.transform.rotation = Quaternion.identity;
 
             _activeSections.Add(section);
@@ -139,6 +152,13 @@ namespace Scripts.Spawners
             }
 
             _activeSections.Clear();
+        }
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+            StopSpawn();
+            ReleaseAllSections();
         }
     }
 }

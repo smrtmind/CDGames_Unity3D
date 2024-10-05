@@ -7,10 +7,13 @@ namespace Scripts.Spawners
     [CreateAssetMenu(fileName = nameof(SectionsStorage), menuName = "ScriptableObjects/" + nameof(SectionsStorage))]
     public class SectionsStorage : ScriptableObject
     {
-        [SerializeField] private Section[] _sections;
+        [SerializeField] private Section _section;
+        [SerializeField] private Section _sectionWithPillar;
 
-        public float GetSectionLengthByZ() => _sections.First().Collider.size.z;
+        public float GetSectionLengthByZ() => _section.SizeZ;
 
-        public Section GetRandomSectionPrefab() => _sections[Random.Range(0, _sections.Length)];
+        public Section GetSection() => _section;
+
+        public Section GetSectionWithPillar() => _sectionWithPillar;
     }
 }

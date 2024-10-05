@@ -45,7 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sectionsStorage: {fileID: 11400000, guid: b0e9a4283e2d0874d93aba4d3336a39f, type: 2}
-  _spawnHeight: 15
-  _platformsBeforeSkip: 3
-  _skipCount: 1
-  _spawnDistanceThreshold: 5
+  _spawnHeight: 35
+  _distanceAheadOfPlayer: 47
+  _spawnPillarSkipCounter: 5
+  _platformsBeforeSkipMin: 1
+  _platformsBeforeSkipMax: 10
+  _skipCountMin: 1
+  _skipCountMax: 5

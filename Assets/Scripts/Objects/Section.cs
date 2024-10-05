@@ -9,13 +9,15 @@ namespace Scripts.Objects
 {
     public class Section : MonoBehaviour, IPoolable
     {
-        [field: SerializeField] public BoxCollider Collider { get; private set; }
+        [SerializeField] private BoxCollider _collider;
         [SerializeField] private float _movingSpeed = 0.1f;
         [SerializeField, Min(0.1f)] private float _verticalSpeed = 0.25f;
+        [SerializeField] private float _distanceToReleaseByZ = -10f;
 
         public event Action<IPoolable> Destroyed;
 
         public GameObject GameObject => gameObject;
+        public float SizeZ => _collider.size.z;
 
         private MatchManager _matchManager;
         private GameManager _gameManager;
@@ -37,7 +39,7 @@ namespace Scripts.Objects
         {
             if (!_matchManager.IsStarted || _gameManager.State != GameState.Gameplay) return;
 
-            if (transform.position.z < -10f)
+            if (transform.position.z < _distanceToReleaseByZ)
                 Release();
 
             Move();
@@ -49,7 +51,8 @@ namespace Scripts.Objects
         {
             _moveTween?.Kill();
             _moveTween = transform.DOMoveY(0f, _verticalSpeed)
-                .SetEase(Ease.OutBack);
+                .SetEase(Ease.OutBack)
+                .SetLink(gameObject);
         }
 
         public void Release() => Destroyed?.Invoke(this);

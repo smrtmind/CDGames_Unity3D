@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Scripts.UI.Menus
 {
@@ -11,6 +12,15 @@ namespace Scripts.UI.Menus
         [SerializeField] private Button _replayButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private TMP_Text _title;
+        [SerializeField] private TMP_Text _timer;
+
+        private GameplayUi _gameplayUi;
+
+        [Inject]
+        private void Construct(GameplayUi gameplayUi)
+        {
+            _gameplayUi = gameplayUi;
+        }
 
         private void OnEnable()
         {
@@ -33,17 +43,12 @@ namespace Scripts.UI.Menus
 
         private void OnAfterStateChanged(GameState state)
         {
-            switch (state)
+            if (state == GameState.Victory || state == GameState.Defeat)
             {
-                case GameState.Victory:
-                    _title.text = "Victory";
-                    _title.color = Color.green;
-                    break;
+                _title.text = state == GameState.Victory ? "Victory" : "Defeat";
+                _title.color = state == GameState.Victory ? Color.green : Color.red;
 
-                case GameState.Defeat:
-                    _title.text = "Defeat";
-                    _title.color = Color.red;
-                    break;
+                _timer.text = _gameplayUi.FormattedTimer;
             }
         }
 

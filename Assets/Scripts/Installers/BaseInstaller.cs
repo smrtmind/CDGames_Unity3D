@@ -17,6 +17,7 @@ namespace Unavinar.Installers
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private Player _player;
         [SerializeField] private BoardControlSlider _boardControlSlider;
+        [SerializeField] private GameplayUi _gameplayUi;
 
         public override void InstallBindings()
         {
@@ -25,6 +26,7 @@ namespace Unavinar.Installers
             InstallCameraController();
             InstallPlayer();
             InstallBoardControlSlider();
+            InstallGameplayUi();
         }
 
         private void InstallManagers()
@@ -61,6 +63,12 @@ namespace Unavinar.Installers
         {
             Container.Bind<BoardControlSlider>().FromInstance(_boardControlSlider).AsSingle().NonLazy();
             Container.QueueForInject(_boardControlSlider);
+        }
+
+        private void InstallGameplayUi()
+        {
+            Container.Bind<GameplayUi>().FromInstance(_gameplayUi).AsSingle().NonLazy();
+            Container.QueueForInject(_gameplayUi);
         }
     }
 }

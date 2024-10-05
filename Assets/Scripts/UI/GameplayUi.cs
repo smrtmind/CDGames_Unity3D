@@ -11,20 +11,25 @@ namespace Scripts.UI
 {
     public class GameplayUi : MonoBehaviour
     {
+        #region Variables
+        [Header("Components")]
         [SerializeField] private Slider _progressBar;
         [SerializeField] private TMP_Text _countdown;
         [SerializeField] private TMP_Text _timer;
         [SerializeField] private TMP_Text _counter;
         [SerializeField] private GameObject _tutorialHint;
 
-        [Space]
+        [Header("Parameters")]
         [SerializeField] private Color _timerStartColor;
         [SerializeField] private Color _timerEndColor;
+
+        public string FormattedTimer { get; private set; }
 
         private MatchManager _matchManager;
         private Coroutine _countdownRoutine;
         private Coroutine _timerRoutine;
         private WaitForEndOfFrame _waitForEndOfFrame = new();
+        #endregion
 
         [Inject]
         private void Construct(MatchManager matchManager)
@@ -110,11 +115,11 @@ namespace Scripts.UI
             {
                 timeElapsed += Time.deltaTime;
 
-                int minutes = Mathf.FloorToInt(timeElapsed / 60);
-                int seconds = Mathf.FloorToInt(timeElapsed % 60);
+                var minutes = Mathf.FloorToInt(timeElapsed / 60);
+                var seconds = Mathf.FloorToInt(timeElapsed % 60);
 
-                string timeFormatted = string.Format("{0:00}:{1:00}", minutes, seconds);
-                _timer.text = timeFormatted;
+                FormattedTimer = string.Format("{0:00}:{1:00}", minutes, seconds);
+                _timer.text = FormattedTimer;
 
                 yield return _waitForEndOfFrame;
             }

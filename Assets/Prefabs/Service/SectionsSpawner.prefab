@@ -48,7 +48,7 @@ MonoBehaviour:
   _spawnHeight: 35
   _distanceAheadOfPlayer: 47
   _spawnPillarSkipCounter: 5
-  _platformsBeforeSkipMin: 1
+  _platformsBeforeSkipMin: 2
   _platformsBeforeSkipMax: 10
   _skipCountMin: 1
   _skipCountMax: 5

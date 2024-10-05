@@ -11,6 +11,7 @@ namespace Scripts.Managers
         [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
         [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
         [SerializeField, Min(0f)] private float _delayOnLevelComplete = 2f;
+        [SerializeField, Min(0)] private int _boardsOnStart;
 
         public static Action OnMatchStarted;
         public static Action OnMatchEnded;
@@ -36,7 +37,9 @@ namespace Scripts.Managers
             Subscribe();
 
             IsStarted = false;
+
             Coins = 0;
+            Boards = _boardsOnStart;
         }
 
         private void Subscribe()
@@ -71,7 +74,11 @@ namespace Scripts.Managers
             }
         }
 
-        private void OnPlayerLost() => EndMatchWithDelay(win: false);
+        private void OnPlayerLost()
+        {
+            Boards = 0;
+            EndMatchWithDelay(win: false);
+        }
 
         public void AddCoins(int value)
         {

@@ -46,12 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemDatas:
   - <Item>k__BackingField: {fileID: 7335604087122601283, guid: eb8cb4c2b51bd1b4ab9152bd9ce9dcb4, type: 3}
-    <ChanceToSpawn>k__BackingField: 30
+    <ChanceToSpawn>k__BackingField: 35
   - <Item>k__BackingField: {fileID: 7006246760719729047, guid: 2225fa358d53dfa47bab3f7c82d2ba71, type: 3}
-    <ChanceToSpawn>k__BackingField: 10
+    <ChanceToSpawn>k__BackingField: 35
   - <Item>k__BackingField: {fileID: 1557400323178148357, guid: 1b1461626cda4ae4a98e95160dfa84f8, type: 3}
-    <ChanceToSpawn>k__BackingField: 10
+    <ChanceToSpawn>k__BackingField: 3
   - <Item>k__BackingField: {fileID: 1557400323178148357, guid: 2036ddf875eb1ba46ab1f23af80137dd, type: 3}
-    <ChanceToSpawn>k__BackingField: 10
+    <ChanceToSpawn>k__BackingField: 3
   - <Item>k__BackingField: {fileID: 1557400323178148357, guid: 86ce3a8cd1232a542b93ee0e1fd8dba7, type: 3}
-    <ChanceToSpawn>k__BackingField: 10
+    <ChanceToSpawn>k__BackingField: 3

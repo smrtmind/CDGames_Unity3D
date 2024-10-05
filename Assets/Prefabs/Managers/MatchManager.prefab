@@ -47,3 +47,4 @@ MonoBehaviour:
   <CoinsToWin>k__BackingField: 100
   <TimerOnstart>k__BackingField: 3
   _delayOnLevelComplete: 2
+  _boardsOnStart: 50

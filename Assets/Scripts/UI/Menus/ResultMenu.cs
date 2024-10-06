@@ -11,15 +11,14 @@ namespace Scripts.UI.Menus
     {
         [SerializeField] private Button _returnButton;
         [SerializeField] private Button _exitButton;
-        [SerializeField] private TMP_Text _title;
-        [SerializeField] private TMP_Text _timer;
+        [SerializeField] private TMP_Text _score;
 
-        private GameplayUi _gameplayUi;
+        private MatchManager _matchManager;
 
         [Inject]
-        private void Construct(GameplayUi gameplayUi)
+        private void Construct(MatchManager matchManager)
         {
-            _gameplayUi = gameplayUi;
+            _matchManager = matchManager;
         }
 
         private void OnEnable()
@@ -43,13 +42,9 @@ namespace Scripts.UI.Menus
 
         private void OnAfterStateChanged(GameState state)
         {
-            if (state == GameState.Victory || state == GameState.Defeat)
-            {
-                _title.text = state == GameState.Victory ? "Victory" : "Defeat";
-                _title.color = state == GameState.Victory ? Color.green : Color.red;
+            if (state != GameState.GameOver) return;
 
-                _timer.text = $"Time: {_gameplayUi.FormattedTimer}";
-            }
+            _score.text = $"Score: {_matchManager.Score}";
         }
 
         private void ReturnToMenu()

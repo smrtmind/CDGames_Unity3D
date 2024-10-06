@@ -10,17 +10,15 @@ namespace Scripts.Managers
     {
         #region Variables
         [field: Header("Parameters")]
-        [field: SerializeField] public int CoinsToWin { get; private set; } = 100;
         [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
         [SerializeField, Min(0f)] private float _delayOnLevelComplete = 2f;
         [SerializeField, Min(0)] private int _boardsOnStart;
 
         public static Action OnMatchStarted;
-        public static Action OnMatchEnded;
-        public static Action<int> OnCoinsAmountChanged;
+        public static Action<int> OnScoreAmountChanged;
         public static Action<int> OnBoardsAmountChanged;
 
-        public int Coins { get; private set; }
+        public int Score { get; private set; }
         public int Boards { get; private set; }
         public bool IsStarted { get; private set; }
 
@@ -41,7 +39,7 @@ namespace Scripts.Managers
 
             IsStarted = false;
 
-            Coins = 0;
+            Score = 0;
             Boards = _boardsOnStart;
         }
 
@@ -80,22 +78,15 @@ namespace Scripts.Managers
         private void OnPlayerLost()
         {
             Boards = 0;
-            EndMatchWithDelay(win: false);
+            IsStarted = false;
+
+            this.WaitForSeconds(_delayOnLevelComplete, () => _gameManager.ChangeState(GameState.GameOver));
         }
 
-        public void AddCoins(int value)
+        public void IncreaseScore()
         {
-            Coins += value;
-            OnCoinsAmountChanged?.Invoke(Coins);
-
-            if (Coins >= CoinsToWin)
-            {
-                Coins = CoinsToWin;
-                Boards = 0;
-
-                EndMatchWithDelay(win: true);
-                OnMatchEnded?.Invoke();
-            }
+            Score++;
+            OnScoreAmountChanged?.Invoke(Score);
         }
 
         public void AddBoards(int value)
@@ -111,14 +102,6 @@ namespace Scripts.Managers
                 Boards = 0;
 
             OnBoardsAmountChanged?.Invoke(Boards);
-        }
-
-        private void EndMatchWithDelay(bool win)
-        {
-            IsStarted = false;
-
-            var state = win ? GameState.Victory : GameState.Defeat;
-            this.WaitForSeconds(_delayOnLevelComplete, () => _gameManager.ChangeState(state));
         }
 
         private void OnDisable()

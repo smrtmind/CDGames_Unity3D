@@ -44,8 +44,7 @@ namespace Scripts.UI
                     SwitchElementTo(_gameplayUi);
                     break;
 
-                case GameState.Victory:
-                case GameState.Defeat:
+                case GameState.GameOver:
                     SwitchElementTo(_resultScreen);
                     break;
             }

@@ -61,14 +61,12 @@ namespace Scripts.Spawners
         private void Subscribe()
         {
             GameManager.OnAfterStateChanged += OnAfterStateChanged;
-            MatchManager.OnMatchEnded += StopSpawn;
             Player.OnPlayerLost += StopSpawn;
         }
 
         private void Unsubscribe()
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
-            MatchManager.OnMatchEnded -= StopSpawn;
             Player.OnPlayerLost -= StopSpawn;
         }
 
@@ -80,8 +78,7 @@ namespace Scripts.Spawners
                     StartSpawn();
                     break;
 
-                case GameState.Victory:
-                case GameState.Defeat:
+                case GameState.GameOver:
                     StopSpawn();
                     break;
             }

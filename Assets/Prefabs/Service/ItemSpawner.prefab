@@ -45,8 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemDatas:
-  - <Item>k__BackingField: {fileID: 7335604087122601283, guid: eb8cb4c2b51bd1b4ab9152bd9ce9dcb4, type: 3}
-    <ChanceToSpawn>k__BackingField: 35
   - <Item>k__BackingField: {fileID: 7006246760719729047, guid: 2225fa358d53dfa47bab3f7c82d2ba71, type: 3}
     <ChanceToSpawn>k__BackingField: 35
   - <Item>k__BackingField: {fileID: 1557400323178148357, guid: 1b1461626cda4ae4a98e95160dfa84f8, type: 3}

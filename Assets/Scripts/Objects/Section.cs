@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Scripts.Managers;
+using Scripts.Objects.Items;
 using System;
 using UnityEngine;
 using Zenject;
@@ -49,7 +50,10 @@ namespace Scripts.Objects
             if (!_matchManager.IsStarted || _gameManager.State != GameState.Gameplay) return;
 
             if (transform.position.z < _distanceToReleaseByZ)
+            {
+                _matchManager.IncreaseScore();
                 Release();
+            }
 
             Move();
         }

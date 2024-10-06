@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 3022880650776830773}
   - component: {fileID: 904404033172987143}
   m_Layer: 5
-  m_Name: Text_Title
+  m_Name: Text_GameOver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Victory
+  m_text: Game over
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
   m_sharedMaterial: {fileID: 6821236961811552098, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
@@ -195,8 +195,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278238968
-  m_fontColor: {r: 0.9725491, g: 0.74509805, b: 0, a: 1}
+    rgba: 4278196984
+  m_fontColor: {r: 0.972549, g: 0.10088075, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -213,8 +213,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 300
-  m_fontSizeBase: 300
+  m_fontSize: 250
+  m_fontSizeBase: 250
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -5
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -656,7 +656,7 @@ GameObject:
   - component: {fileID: 6911676474780877402}
   - component: {fileID: 8547075042810865883}
   m_Layer: 5
-  m_Name: Text_Timer
+  m_Name: Text_Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -709,7 +709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Time: 00:00'
+  m_text: 'Score: 99999'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
   m_sharedMaterial: {fileID: 6821236961811552098, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
@@ -933,8 +933,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _returnButton: {fileID: 3141396289166549797}
   _exitButton: {fileID: 7813741453991336683}
-  _title: {fileID: 904404033172987143}
-  _timer: {fileID: 8547075042810865883}
+  _score: {fileID: 8547075042810865883}
 --- !u!224 &196103802363008651 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1402729258957792588, guid: f14a7dd4b99196d488f458fcb0b4bede, type: 3}

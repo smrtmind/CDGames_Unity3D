@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 7006246760719729047}
   - component: {fileID: -1350384710764745910}
   m_Layer: 10
-  m_Name: Boards
+  m_Name: BoardStack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 1
-  <Value>k__BackingField: 35
+  _boardPrefab: {fileID: 8690538218387739357, guid: 547bf475d09538a4d81f29f405e25b41, type: 3}
+  _amountOfBoards: 3
+  _delayBetweenSpawn: 0.1
 --- !u!114 &-1350384710764745910
 MonoBehaviour:
   m_ObjectHideFlags: 0

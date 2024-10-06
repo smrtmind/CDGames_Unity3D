@@ -7,7 +7,6 @@ namespace Scripts.Characters
 {
     public class InfoWidget : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _coins;
         [SerializeField] private TMP_Text _boards;
 
         private MatchManager _matchManager;
@@ -26,19 +25,15 @@ namespace Scripts.Characters
         private void Subscribe()
         {
             GameManager.OnAfterStateChanged += OnAfterStateChanged;
-            MatchManager.OnCoinsAmountChanged += RefreshCoins;
             MatchManager.OnBoardsAmountChanged += RefreshBoards;
-            Player.OnPlayerLost += DisableCounters;
-            MatchManager.OnMatchEnded += DisableCounters;
+            Player.OnPlayerLost += DisableCounter;
         }
 
         private void Unsubscribe()
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
-            MatchManager.OnCoinsAmountChanged -= RefreshCoins;
             MatchManager.OnBoardsAmountChanged -= RefreshBoards;
-            Player.OnPlayerLost -= DisableCounters;
-            MatchManager.OnMatchEnded -= DisableCounters;
+            Player.OnPlayerLost -= DisableCounter;
         }
 
         private void OnAfterStateChanged(GameState state)
@@ -48,15 +43,9 @@ namespace Scripts.Characters
             RefreshBoards(_matchManager.Boards);
         }
 
-        private void RefreshCoins(int value) => _coins.text = $"{value}";
-
         private void RefreshBoards(int value) => _boards.text = $"{value}";
 
-        private void DisableCounters()
-        {
-            _coins.gameObject.SetActive(false);
-            _boards.gameObject.SetActive(false);
-        }
+        private void DisableCounter() => _boards.gameObject.SetActive(false);
 
         private void OnDisable()
         {

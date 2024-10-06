@@ -34,35 +34,15 @@ namespace Scripts.Characters
 
         private void OnEnable()
         {
-            Subscribe();
-
-            _rigidBody.useGravity = false;
-        }
-
-        private void Subscribe()
-        {
-            GameManager.OnAfterStateChanged += OnAfterStateChanged;
             MatchManager.OnMatchStarted += OnMatchStarted;
-            MatchManager.OnMatchEnded += OnMatchEnded;
         }
 
-        private void Unsubscribe()
+        private void OnDisable()
         {
-            GameManager.OnAfterStateChanged -= OnAfterStateChanged;
             MatchManager.OnMatchStarted -= OnMatchStarted;
-            MatchManager.OnMatchEnded -= OnMatchEnded;
-        }
-
-        private void OnAfterStateChanged(GameState state)
-        {
-            if (state != GameState.Gameplay) return;
-
-            _rigidBody.useGravity = true;
         }
 
         private void OnMatchStarted() => _animationsController.Run();
-
-        private void OnMatchEnded() => _animationsController.Win();
 
         private void Update()
         {
@@ -93,11 +73,6 @@ namespace Scripts.Characters
             _audioManager.PlaySfx("hit");
 
             OnPlayerLost?.Invoke();
-        }
-
-        private void OnDisable()
-        {
-            Unsubscribe();
         }
     }
 }

@@ -9,8 +9,7 @@ namespace Scripts.Managers
         None,
         StartScreen,
         Gameplay,
-        Victory,
-        Defeat
+        GameOver
     }
 
     public class GameManager : MonoBehaviour

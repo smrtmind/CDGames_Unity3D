@@ -1,5 +1,6 @@
 using Scripts.Managers;
 using Scripts.Objects;
+using Scripts.Objects.Items;
 using Scripts.Pooling;
 using UnityEngine;
 using Zenject;

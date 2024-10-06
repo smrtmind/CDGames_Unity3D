@@ -1,4 +1,3 @@
-using Scripts.Characters;
 using Scripts.Managers;
 using Scripts.Utils;
 using System.Collections;
@@ -14,9 +13,8 @@ namespace Scripts.UI
     {
         #region Variables
         [Header("Components")]
-        [SerializeField] private Image _progressFiller;
         [SerializeField] private TMP_Text _countdown;
-        [SerializeField] private TMP_Text _timer;
+        [SerializeField] private TMP_Text _score;
         [SerializeField] private Button _returnButton;
         [SerializeField] private GameObject _tutorialHand;
 
@@ -24,14 +22,8 @@ namespace Scripts.UI
         [SerializeField] private Color _timerStartColor;
         [SerializeField] private Color _timerEndColor;
 
-        public string FormattedTimer { get; private set; }
-
         private MatchManager _matchManager;
         private Coroutine _countdownRoutine;
-        private Coroutine _timerRoutine;
-        private WaitForEndOfFrame _waitForEndOfFrame = new();
-
-        private float _progressStep;
         #endregion
 
         [Inject]
@@ -43,16 +35,13 @@ namespace Scripts.UI
         private void OnEnable()
         {
             Subscribe();
-            InitProgressBar();
         }
 
         private void Subscribe()
         {
             GameManager.OnAfterStateChanged += OnAfterStateChanged;
             MatchManager.OnMatchStarted += OnMatchStarted;
-            MatchManager.OnMatchEnded += StopTimer;
-            MatchManager.OnCoinsAmountChanged += OnCoinsAmountChanged;
-            Player.OnPlayerLost += StopTimer;
+            MatchManager.OnScoreAmountChanged += OnScoreAmountChanged;
             _returnButton.onClick.AddListener(ReturnToMenu);
         }
 
@@ -60,9 +49,7 @@ namespace Scripts.UI
         {
             GameManager.OnAfterStateChanged -= OnAfterStateChanged;
             MatchManager.OnMatchStarted -= OnMatchStarted;
-            MatchManager.OnMatchEnded -= StopTimer;
-            MatchManager.OnCoinsAmountChanged -= OnCoinsAmountChanged;
-            Player.OnPlayerLost -= StopTimer;
+            MatchManager.OnScoreAmountChanged -= OnScoreAmountChanged;
             _returnButton.onClick.RemoveListener(ReturnToMenu);
         }
 
@@ -78,15 +65,9 @@ namespace Scripts.UI
         {
             _countdown.gameObject.SetActive(false);
             _tutorialHand.SetActive(false);
-            _timer.gameObject.SetActive(true);
-
-            if (_timerRoutine == null)
-                _timerRoutine = StartCoroutine(Timer());
         }
 
-        private void StopTimer() => this.StopCoroutine(ref _timerRoutine);
-
-        private void OnCoinsAmountChanged(int coins) => _progressFiller.fillAmount = _progressStep * coins;
+        private void OnScoreAmountChanged(int score) => _score.text = $"Score: {score}";
 
         private IEnumerator Countdown()
         {
@@ -107,32 +88,6 @@ namespace Scripts.UI
             _countdownRoutine = null;
         }
 
-        private IEnumerator Timer()
-        {
-            var timeElapsed = 0f;
-
-            while (true)
-            {
-                timeElapsed += Time.deltaTime;
-
-                var minutes = Mathf.FloorToInt(timeElapsed / 60);
-                var seconds = Mathf.FloorToInt(timeElapsed % 60);
-
-                FormattedTimer = string.Format("{0:00}:{1:00}", minutes, seconds);
-                _timer.text = FormattedTimer;
-
-                yield return _waitForEndOfFrame;
-            }
-        }
-
-        private void InitProgressBar()
-        {
-            _progressFiller.fillAmount = 0f;
-            _progressStep = 1f / _matchManager.CoinsToWin;
-
-            _timer.gameObject.SetActive(false);
-        }
-
         private void ReturnToMenu()
         {
             var currentScene = SceneManager.GetActiveScene().name;
@@ -142,8 +97,6 @@ namespace Scripts.UI
         private void OnDisable()
         {
             Unsubscribe();
-
-            StopTimer();
             this.StopCoroutine(ref _countdownRoutine);
         }
     }

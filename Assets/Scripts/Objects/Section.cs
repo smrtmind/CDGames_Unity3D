@@ -58,7 +58,7 @@ namespace Scripts.Objects
             Move();
         }
 
-        private void Move() => transform.position = new Vector3(0f, transform.position.y, transform.position.z + _movingSpeed);
+        private void Move() => transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + _movingSpeed);
 
         private void VerticalMove()
         {

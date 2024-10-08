@@ -11,9 +11,9 @@ namespace Scripts.Characters
         {
             if ((_target & (1 << other.gameObject.layer)) != 0)
             {
-                other.TryGetComponent(out BoardStack boardStack);
-                if (boardStack != null)
-                    boardStack.Collect();
+                other.TryGetComponent(out CollectableItem item);
+                if (item != null)
+                    item.Collect();
             }
         }
     }

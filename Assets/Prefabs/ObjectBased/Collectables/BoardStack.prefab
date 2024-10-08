@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8446761660494955336}
-  - component: {fileID: 8446761660494955338}
+  - component: {fileID: 6239369767340758921}
   - component: {fileID: 7006246760719729047}
   - component: {fileID: -1350384710764745910}
   m_Layer: 10
@@ -203,8 +203,8 @@ Transform:
   - {fileID: 1029870319894868753}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8446761660494955338
-BoxCollider:
+--- !u!135 &6239369767340758921
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -222,8 +222,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.875, y: 0.86913466, z: 1.875}
-  m_Center: {x: -0.019321838, y: 0.3072617, z: 0}
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7006246760719729047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,10 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 609e7b76f140aef4fb933c0ede4fa4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
-  _boardPrefab: {fileID: 8690538218387739357, guid: 547bf475d09538a4d81f29f405e25b41, type: 3}
-  _amountOfBoards: 3
-  _delayBetweenSpawn: 0.1
+  <Value>k__BackingField: 30
 --- !u!114 &-1350384710764745910
 MonoBehaviour:
   m_ObjectHideFlags: 0

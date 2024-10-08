@@ -23,13 +23,15 @@ namespace Scripts.UI
         [SerializeField] private Color _timerEndColor;
 
         private MatchManager _matchManager;
+        private SaveManager _saveManager;
         private Coroutine _countdownRoutine;
         #endregion
 
         [Inject]
-        private void Construct(MatchManager matchManager)
+        private void Construct(MatchManager matchManager, SaveManager saveManager)
         {
             _matchManager = matchManager;
+            _saveManager = saveManager;
         }
 
         private void OnEnable()
@@ -67,7 +69,8 @@ namespace Scripts.UI
             _tutorialHand.SetActive(false);
         }
 
-        private void OnScoreAmountChanged(int score) => _score.text = $"Score: {score}";
+        private void OnScoreAmountChanged(int score)
+            => _score.text = _saveManager.BestScore < _matchManager.Score ? $"<color=green>Score: {score}</color>" : $"Score: {score}";
 
         private IEnumerator Countdown()
         {

@@ -13,7 +13,11 @@ namespace Scripts.Managers
         [field: SerializeField] public float TimerOnStart { get; private set; } = 3f;
         [SerializeField, Min(0f)] private float _delayOnLevelComplete = 2f;
         [SerializeField, Min(0)] private int _boardsOnStart;
-        [field: SerializeField, Range(0.1f, 1f)] public float LevelMovingSpeed { get; private set; } = 0.3f;
+
+        [Space]
+        [SerializeField, Min(0.1f)] private float _levelSpeedMin  = 0.3f;
+        [SerializeField, Min(0.2f)] private float _levelSpeedMax = 1f;
+        [SerializeField, Min(0.01f)] private float _levelSpeedStep = 0.05f;
 
         public static Action OnMatchStarted;
         public static Action<int> OnScoreAmountChanged;
@@ -22,6 +26,7 @@ namespace Scripts.Managers
         public int Score { get; private set; }
         public int Boards { get; private set; }
         public bool IsStarted { get; private set; }
+        public float LevelSpeed { get; private set; }
 
         private AudioManager _audioManager;
         private GameManager _gameManager;
@@ -42,6 +47,7 @@ namespace Scripts.Managers
 
             Score = 0;
             Boards = _boardsOnStart;
+            LevelSpeed = _levelSpeedMin;
         }
 
         private void Subscribe()
@@ -103,6 +109,13 @@ namespace Scripts.Managers
                 Boards = 0;
 
             OnBoardsAmountChanged?.Invoke(Boards);
+        }
+
+        public void IncreaseLevelSpeed()
+        {
+            LevelSpeed += _levelSpeedStep;
+            if (LevelSpeed > _levelSpeedMax)
+                LevelSpeed = _levelSpeedMax;
         }
 
         private void OnDisable()

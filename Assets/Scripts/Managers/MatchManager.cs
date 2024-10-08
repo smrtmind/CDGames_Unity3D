@@ -10,9 +10,10 @@ namespace Scripts.Managers
     {
         #region Variables
         [field: Header("Parameters")]
-        [field: SerializeField] public float TimerOnstart { get; private set; } = 3f;
+        [field: SerializeField] public float TimerOnStart { get; private set; } = 3f;
         [SerializeField, Min(0f)] private float _delayOnLevelComplete = 2f;
         [SerializeField, Min(0)] private int _boardsOnStart;
+        [field: SerializeField, Range(0.1f, 1f)] public float LevelMovingSpeed { get; private set; } = 0.3f;
 
         public static Action OnMatchStarted;
         public static Action<int> OnScoreAmountChanged;
@@ -66,7 +67,7 @@ namespace Scripts.Managers
                 case GameState.Gameplay:
                     _audioManager.SetMusicTrack("gameplay");
 
-                    this.WaitForSeconds(TimerOnstart, () =>
+                    this.WaitForSeconds(TimerOnStart, () =>
                     {
                         IsStarted = true;
                         OnMatchStarted?.Invoke();

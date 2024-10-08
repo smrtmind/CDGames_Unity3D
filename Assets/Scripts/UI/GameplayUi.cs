@@ -71,7 +71,7 @@ namespace Scripts.UI
 
         private IEnumerator Countdown()
         {
-            var countdown = _matchManager.TimerOnstart;
+            var countdown = _matchManager.TimerOnStart;
 
             while (countdown > 0f)
             {

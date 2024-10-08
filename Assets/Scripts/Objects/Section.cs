@@ -16,7 +16,6 @@ namespace Scripts.Objects
         [SerializeField] private Transform _spawnPoint;
 
         [Header("Parameters")]
-        [SerializeField] private float _movingSpeed = 0.1f;
         [SerializeField, Min(0.1f)] private float _verticalSpeed = 0.25f;
         [SerializeField] private float _distanceToReleaseByZ = -10f;
 
@@ -30,6 +29,8 @@ namespace Scripts.Objects
         private GameManager _gameManager;
         private Tween _moveTween;
         private Tween _rotateTween;
+
+        private float _movingSpeed;
         #endregion
 
         [Inject]
@@ -37,6 +38,7 @@ namespace Scripts.Objects
         {
             _matchManager = matchManager;
             _gameManager = gameManager;
+            _movingSpeed = _matchManager.LevelMovingSpeed;
         }
 
         private void OnEnable()
@@ -58,7 +60,7 @@ namespace Scripts.Objects
             Move();
         }
 
-        private void Move() => transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + _movingSpeed);
+        private void Move() => transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + (-_movingSpeed));
 
         private void VerticalMove()
         {

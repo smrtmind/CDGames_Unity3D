@@ -101,7 +101,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 8257203868544838821}
   _spawnPoint: {fileID: 6248407573154013238}
-  _movingSpeed: -0.3
   _verticalSpeed: 1
   _distanceToReleaseByZ: -10
 --- !u!1 &8605440886128399321

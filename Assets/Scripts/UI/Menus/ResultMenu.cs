@@ -14,11 +14,13 @@ namespace Scripts.UI.Menus
         [SerializeField] private TMP_Text _score;
 
         private MatchManager _matchManager;
+        private SaveManager _saveManager;
 
         [Inject]
-        private void Construct(MatchManager matchManager)
+        private void Construct(MatchManager matchManager, SaveManager saveManager)
         {
             _matchManager = matchManager;
+            _saveManager = saveManager;
         }
 
         private void OnEnable()
@@ -44,7 +46,12 @@ namespace Scripts.UI.Menus
         {
             if (state != GameState.GameOver) return;
 
-            _score.text = $"Score: {_matchManager.Score}";
+            var achievedNewBestScore = _matchManager.Score > _saveManager.BestScore;
+            if (achievedNewBestScore)
+                _saveManager.Save(_matchManager.Score);
+
+            var actualScoreText = achievedNewBestScore ? $"<color=green>New best: {_matchManager.Score}</color>" : $"Score: {_matchManager.Score}";
+            _score.text = actualScoreText;
         }
 
         private void ReturnToMenu()

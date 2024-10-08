@@ -13,6 +13,7 @@ namespace Unavinar.Installers
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private MatchManager _matchManager;
         [SerializeField] private AudioManager _audioManager;
+        [SerializeField] private SaveManager _saveManager;
         [SerializeField] private ObjectPool _objectPool;
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private Player _player;
@@ -39,6 +40,9 @@ namespace Unavinar.Installers
 
             Container.Bind<AudioManager>().FromInstance(_audioManager).AsSingle().NonLazy();
             Container.QueueForInject(_audioManager);
+
+            Container.Bind<SaveManager>().FromInstance(_saveManager).AsSingle().NonLazy();
+            Container.QueueForInject(_saveManager);
         }
 
         private void InstallObjectPool()

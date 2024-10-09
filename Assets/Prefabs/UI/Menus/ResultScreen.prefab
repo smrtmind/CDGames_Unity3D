@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 3022880650776830773}
   - component: {fileID: 904404033172987143}
   m_Layer: 5
-  m_Name: Text_GameOver
+  m_Name: Text_Wasted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game over
+  m_text: wasted
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
   m_sharedMaterial: {fileID: 6821236961811552098, guid: 99091070aa5323843b3337e6b86cc73f, type: 2}
@@ -213,8 +213,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 250
-  m_fontSizeBase: 250
+  m_fontSize: 300
+  m_fontSizeBase: 300
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: -5
+  m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

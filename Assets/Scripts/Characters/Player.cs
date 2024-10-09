@@ -12,6 +12,7 @@ namespace Scripts.Characters
         [SerializeField] private AnimationsController _animationsController;
         [SerializeField] private Rigidbody _rigidBody;
         [SerializeField] private Collider _collider;
+        [SerializeField] private ParticleSystem _aura;
 
         [Header("Parameters")]
         [SerializeField] private LayerMask _targetGround;
@@ -42,12 +43,19 @@ namespace Scripts.Characters
             MatchManager.OnMatchStarted -= OnMatchStarted;
         }
 
-        private void OnMatchStarted() => _animationsController.Run();
+        private void OnMatchStarted()
+        {
+            _aura.gameObject.SetActive(false);
+            _animationsController.Run();
+        }
 
         private void Update()
         {
             if (transform.position.y < _losePositionByY)
             {
+                _audioManager.PlaySfx("death");
+                _audioManager.StopMusic();
+
                 OnPlayerLost?.Invoke();
                 Destroy(gameObject);
             }
@@ -70,7 +78,6 @@ namespace Scripts.Characters
             _rigidBody.velocity = Vector3.zero;
 
             _animationsController.EnableRagdoll();
-            _audioManager.PlaySfx("hit");
 
             OnPlayerLost?.Invoke();
         }

@@ -15,8 +15,7 @@ namespace Scripts.Managers
         [SerializeField, Min(0)] private int _boardsOnStart;
 
         [Space]
-        [SerializeField, Min(0.1f)] private float _levelSpeedMin  = 0.3f;
-        [SerializeField, Min(0.2f)] private float _levelSpeedMax = 1f;
+        [SerializeField, Min(0.1f)] private float _defaultLevelSpeed  = 0.3f;
         [SerializeField, Min(0.01f)] private float _levelSpeedStep = 0.05f;
 
         public static Action OnMatchStarted;
@@ -47,7 +46,7 @@ namespace Scripts.Managers
 
             Score = 0;
             Boards = _boardsOnStart;
-            LevelSpeed = _levelSpeedMin;
+            LevelSpeed = _defaultLevelSpeed;
         }
 
         private void Subscribe()
@@ -111,12 +110,7 @@ namespace Scripts.Managers
             OnBoardsAmountChanged?.Invoke(Boards);
         }
 
-        public void IncreaseLevelSpeed()
-        {
-            LevelSpeed += _levelSpeedStep;
-            if (LevelSpeed > _levelSpeedMax)
-                LevelSpeed = _levelSpeedMax;
-        }
+        public void IncreaseLevelSpeed() => LevelSpeed += _levelSpeedStep;
 
         private void OnDisable()
         {

@@ -33,5 +33,7 @@ namespace Scripts.Managers
                 }
             }
         }
+
+        public void StopMusic() => _musicSource.Stop();
     }
 }

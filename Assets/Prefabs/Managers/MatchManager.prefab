@@ -45,8 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <TimerOnStart>k__BackingField: 3
-  _delayOnLevelComplete: 2
+  _delayOnLevelComplete: 2.4
   _boardsOnStart: 100
-  _levelSpeedMin: 0.2
-  _levelSpeedMax: 1
+  _defaultLevelSpeed: 0.2
   _levelSpeedStep: 0.01

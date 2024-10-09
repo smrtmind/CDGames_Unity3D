@@ -4,7 +4,7 @@ namespace Scripts.Objects.Items
     {
         public override void Collect()
         {
-            _audioManager.PlaySfx("board");
+            _audioManager.PlaySfx("boardTake");
             _matchManager.AddBoards(Value);
 
             Release();

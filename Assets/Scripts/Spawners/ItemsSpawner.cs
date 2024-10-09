@@ -10,6 +10,7 @@ namespace Scripts.Spawners
 {
     public class ItemsSpawner : MonoBehaviour
     {
+        [SerializeField] private Section _section;
         [SerializeField] private ItemData[] _itemDatas;
 
         private ObjectPool _objectPool;
@@ -24,21 +25,16 @@ namespace Scripts.Spawners
 
         private void OnEnable()
         {
-            SectionsSpawner.OnSectionSpawned += SpawnRandomItem;
+            SpawnRandomItem();
         }
 
-        private void OnDisable()
-        {
-            SectionsSpawner.OnSectionSpawned -= SpawnRandomItem;
-        }
-
-        private void SpawnRandomItem(Section section)
+        private void SpawnRandomItem()
         {
             if (!_matchManager.IsStarted) return;
 
             var itemPrefab = GenerateRandomItemPrefab();
             if (itemPrefab != null)
-                section.SetCurrentItem(_objectPool.Get(itemPrefab));
+                _section.SetCurrentItem(_objectPool.Get(itemPrefab));
         }
 
         private Item GenerateRandomItemPrefab()

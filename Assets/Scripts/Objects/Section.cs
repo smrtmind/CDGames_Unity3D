@@ -24,7 +24,6 @@ namespace Scripts.Objects
         public GameObject GameObject => gameObject;
         public Vector3 Size => _collider.size;
 
-        private Item _currentItem;
         private MatchManager _matchManager;
         private GameManager _gameManager;
         private Tween _moveTween;
@@ -51,6 +50,8 @@ namespace Scripts.Objects
             if (transform.position.z < _distanceToReleaseByZ)
             {
                 _matchManager.IncreaseScore();
+
+                TryReleaseItem();
                 Release();
             }
 
@@ -86,22 +87,23 @@ namespace Scripts.Objects
 
         public void SetCurrentItem(Item item)
         {
-            _currentItem = item;
+            item.transform.SetParent(_spawnPoint);
+            item.transform.position = _spawnPoint.position;
+        }
 
-            _currentItem.transform.SetParent(_spawnPoint);
-            _currentItem.transform.position = _spawnPoint.position;
+        private void TryReleaseItem()
+        {
+            if (_spawnPoint.childCount == 0) return;
+
+            _spawnPoint.GetChild(0).TryGetComponent(out Item item);
+            if (item != null)
+                item.Release();
         }
 
         private void OnDisable()
         {
             _moveTween?.Kill();
             _rotateTween?.Kill();
-
-            if (_currentItem != null)
-            {
-                _currentItem.Release();
-                _currentItem = null;
-            }
         }
     }
 }

@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _section: {fileID: 4515967696473963055, guid: ec97cdd7d6fbfeb4fb56a184f512ba39, type: 3}
   _sectionWithPillar: {fileID: 6614556717542712832, guid: 94fcceb2b8f26274fa529548b624d2a5, type: 3}
+  _sectionSide: {fileID: 4515967696473963055, guid: bb04b98c5d0ceca4da237e99c760c4de, type: 3}
+  _sectionSideWithPillar: {fileID: 4515967696473963055, guid: fd2fcb741d3b0d246ba528efaad1dee9, type: 3}
   _spawnDistance: 35
   _distanceAheadOfPlayer: 47
   _spawnPillarSkipCounter: 5

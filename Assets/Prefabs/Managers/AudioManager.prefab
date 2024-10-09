@@ -181,13 +181,13 @@ MonoBehaviour:
   - <Name>k__BackingField: startScreen
     <Clip>k__BackingField: {fileID: 8300000, guid: fdd0f9fa87767e74aa85f3b201f84658, type: 3}
   - <Name>k__BackingField: gameplay
-    <Clip>k__BackingField: {fileID: 8300000, guid: 9c87aa41290a7764aacff08a462be41c, type: 3}
-  - <Name>k__BackingField: coin
-    <Clip>k__BackingField: {fileID: 8300000, guid: d4bc2e4cf5174004bb130cb50c0b96cd, type: 3}
-  - <Name>k__BackingField: board
-    <Clip>k__BackingField: {fileID: 8300000, guid: a765076204f3e304996c2eb8e4e506c0, type: 3}
-  - <Name>k__BackingField: hit
-    <Clip>k__BackingField: {fileID: 8300000, guid: dcc441f51a267e94cb1e028ca9868ee5, type: 3}
+    <Clip>k__BackingField: {fileID: 8300000, guid: ecb457697c6f84b4096371ecc64c1fba, type: 3}
+  - <Name>k__BackingField: boardDrop
+    <Clip>k__BackingField: {fileID: 8300000, guid: 5c3792bfc817ca341b1edce77fe1752e, type: 3}
+  - <Name>k__BackingField: boardTake
+    <Clip>k__BackingField: {fileID: 8300000, guid: d624a6586316b22428bcae986c71ddae, type: 3}
+  - <Name>k__BackingField: death
+    <Clip>k__BackingField: {fileID: 8300000, guid: 246a475074e89c8449bf0201352d7afa, type: 3}
   - <Name>k__BackingField: button
     <Clip>k__BackingField: {fileID: 8300000, guid: 0c7dfddf1a6e669498aad39702f765c7, type: 3}
 --- !u!81 &7853608710676133398
@@ -242,7 +242,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0

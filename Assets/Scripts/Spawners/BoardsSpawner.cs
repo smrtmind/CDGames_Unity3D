@@ -20,6 +20,7 @@ namespace Scripts.Spawners
 
         private ObjectPool _objectPool;
         private MatchManager _matchManager;
+        private AudioManager _audioManager;
         private BoardControlSlider _boardControlSlider;
 
         private float _time;
@@ -29,10 +30,11 @@ namespace Scripts.Spawners
         #endregion
 
         [Inject]
-        private void Construct(ObjectPool objectPool, MatchManager matchManager, BoardControlSlider boardControlSlider)
+        private void Construct(ObjectPool objectPool, MatchManager matchManager, AudioManager audioManager, BoardControlSlider boardControlSlider)
         {
             _objectPool = objectPool;
             _matchManager = matchManager;
+            _audioManager = audioManager;
             _boardControlSlider = boardControlSlider;
         }
 
@@ -74,6 +76,8 @@ namespace Scripts.Spawners
 
                     _nextBoardPosition = Mathf.Lerp(boardTransform.position.y, boardTransform.position.y + sliderValue, Time.deltaTime * _smoothPower);
                     _nextBoardRotation = Mathf.Lerp(boardTransform.rotation.x, -sliderValue * _rotateMultiplier, Time.deltaTime * _smoothPower);
+
+                    _audioManager.PlaySfx("boardDrop");
                 }
             }
             else

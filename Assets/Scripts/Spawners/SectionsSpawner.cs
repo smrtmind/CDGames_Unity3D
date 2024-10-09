@@ -18,6 +18,8 @@ namespace Scripts.Spawners
         [Header("Components")]
         [SerializeField] private Section _section;
         [SerializeField] private Section _sectionWithPillar;
+        [SerializeField] private Section _sectionSide;
+        [SerializeField] private Section _sectionSideWithPillar;
 
         [Header("Parameters")]
         [SerializeField] private float _spawnDistance = 10f;
@@ -32,8 +34,6 @@ namespace Scripts.Spawners
         [Space]
         [SerializeField, Min(2)] private int _frontSectionsMin;
         [SerializeField, Min(2)] private int _frontSectionsMax;
-
-        public static Action<Section> OnSectionSpawned;
 
         private HashSet<Section> _activeSections = new();
         private ObjectPool _objectPool;
@@ -125,8 +125,6 @@ namespace Scripts.Spawners
                 _lastSpawnedSection = GetNewSection(currentSection);
                 _lastSpawnedSection.transform.position = new Vector3(0f, Random.value > 0.5f ? _spawnDistance : -_spawnDistance, newPosisitonByZ);
 
-                OnSectionSpawned?.Invoke(_lastSpawnedSection);
-
                 if (currentSection == _sectionWithPillar)
                     SpawnSideSections(newPosisitonByZ, _section.Size.x, Random.Range(_sideSectionsMin, _sideSectionsMax));
             }
@@ -143,7 +141,7 @@ namespace Scripts.Spawners
 
             for (int i = 1; i <= sideSections + (sideSections / 2); i++)
             {
-                var section = GetNewSection(_section);
+                var section = GetNewSection(GetRandomSideSection());
                 var side = i <= sideSections ? -1 : 1;
                 var positionX = offsetX * (i <= sideSections ? i : i - sideSections);
 
@@ -165,7 +163,7 @@ namespace Scripts.Spawners
 
         private void SpawnNewSectionInFront(float lastPositionX, float basePositionZ, int offset)
         {
-            var section = GetNewSection(_section);
+            var section = GetNewSection(GetRandomSideSection());
             var newPositionZ = basePositionZ + offset * _section.Size.z;
 
             section.transform.position = new Vector3(lastPositionX, Random.value > 0.5f ? _spawnDistance : -_spawnDistance, newPositionZ);
@@ -197,6 +195,8 @@ namespace Scripts.Spawners
 
             _activeSections.Clear();
         }
+
+        private Section GetRandomSideSection() => Random.value > 0.1f ? _sectionSide : _sectionSideWithPillar;
 
         private void OnDisable()
         {

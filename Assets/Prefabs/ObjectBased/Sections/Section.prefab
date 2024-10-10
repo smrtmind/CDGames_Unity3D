@@ -8,42 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[0].<ChanceToSpawn>k__BackingField
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[1].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[2].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[3].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[4].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[5].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[6].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[7].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
-      propertyPath: _itemDatas.Array.data[8].<ChanceToSpawn>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 8605440885912738822, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: m_Name
       value: Section

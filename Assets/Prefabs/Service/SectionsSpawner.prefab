@@ -53,6 +53,6 @@ MonoBehaviour:
   _spawnPillarSkipCounter: 5
   _skipChance: 30
   _sideSectionsMin: 2
-  _sideSectionsMax: 8
+  _sideSectionsMax: 6
   _frontSectionsMin: 3
   _frontSectionsMax: 8

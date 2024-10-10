@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Scripts.Objects.Items;
 using Scripts.Utils;
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,34 +13,31 @@ namespace Scripts.Objects
         [SerializeField] private Item _item;
 
         [Header("Parameters")]
-        [SerializeField, Min(0.1f)] private float _movingDuration = 3;
+        [SerializeField] private float _finalPositionY = 35f;
 
         [Space]
-        [SerializeField] private float _minDelayOnStart = 1f;
-        [SerializeField] private float _maxDelayOnStart = 2f;
+        [SerializeField, Min(0.1f)] private float _movingDurationMin = 1f;
+        [SerializeField, Min(0.1f)] private float _movingDurationMax = 3f;
 
         [Space]
-        [SerializeField] private float _minPositionY = 35f;
-        [SerializeField] private float _maxPositionY = 60f;
+        [SerializeField, Min(1f)] private float _delayOnStartMin = 1f;
+        [SerializeField, Min(1f)] private float _delayOnStartMax = 2f;
 
         private Tween _moveTween;
         #endregion
 
         private void OnEnable()
         {
-            this.WaitForSeconds(Random.Range(_minDelayOnStart, _maxDelayOnStart), () =>
-            {
-                Move(() => _item.Release());
-            });
+            this.WaitForSeconds(Random.Range(_delayOnStartMin, _delayOnStartMax), Move);
         }
 
-        private void Move(Action onComplete)
+        private void Move()
         {
             _moveTween?.Kill();
-            _moveTween = transform.DOMoveY(Random.Range(_minPositionY, _maxPositionY), _movingDuration)
+            _moveTween = transform.DOMoveY(_finalPositionY, Random.Range(_movingDurationMin, _movingDurationMax))
                 .SetEase(Ease.Linear)
                 .SetLink(gameObject)
-                .OnComplete(() => onComplete?.Invoke());
+                .OnComplete(_item.Release);
         }
 
         private void OnDisable()

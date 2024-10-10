@@ -74,6 +74,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket2
       objectReference: {fileID: 0}
+    - target: {fileID: 3322875869924213101, guid: aef3d67a03ca1e044925746b74a9a15f, type: 3}
+      propertyPath: m_Height
+      value: 4.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3771179496810812013, guid: aef3d67a03ca1e044925746b74a9a15f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

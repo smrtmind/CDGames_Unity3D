@@ -89,55 +89,67 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.size
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[0].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: 92e572418fc4a10439d995f09a67b448, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: ef0d9ce8391e5b249b4f1ddb7cf2ba76, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[1].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: 669c7d05e4082ef4689942b41798ee8f, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: cc713e9a7259d1b4892732b7ba3bb29f, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[2].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: bd12b95ee18445d428edd64a268b9700, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: 1357af7ad5476034fa75edf5d8f51607, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[3].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: fb21b1252ea824a4cb2884c18dc07d21, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: 92e572418fc4a10439d995f09a67b448, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[4].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: 92e572418fc4a10439d995f09a67b448, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: 669c7d05e4082ef4689942b41798ee8f, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[5].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: 669c7d05e4082ef4689942b41798ee8f, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: bd12b95ee18445d428edd64a268b9700, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[6].<Item>k__BackingField
       value: 
-      objectReference: {fileID: 5567434445533806507, guid: bd12b95ee18445d428edd64a268b9700, type: 3}
+      objectReference: {fileID: 5567434445533806507, guid: fb21b1252ea824a4cb2884c18dc07d21, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[7].<Item>k__BackingField
       value: 
       objectReference: {fileID: 5567434445533806507, guid: fb21b1252ea824a4cb2884c18dc07d21, type: 3}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[0].<ChanceToSpawn>k__BackingField
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[1].<ChanceToSpawn>k__BackingField
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[2].<ChanceToSpawn>k__BackingField
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: _itemDatas.Array.data[3].<ChanceToSpawn>k__BackingField
-      value: 2
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
+      propertyPath: _itemDatas.Array.data[4].<ChanceToSpawn>k__BackingField
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
+      propertyPath: _itemDatas.Array.data[5].<ChanceToSpawn>k__BackingField
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241255476956700563, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
+      propertyPath: _itemDatas.Array.data[6].<ChanceToSpawn>k__BackingField
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8605440885912738822, guid: 1670b55162cdd2f46ae45f13de6db22b, type: 3}
       propertyPath: m_Name
